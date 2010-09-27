@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ethan/Programming/Tetris/src/main.cpp
+GL/glew.h
+-
+GL/glx.h
+-
+GL/glu.h
+-
+X11/Xlib.h
+-
+X11/keysym.h
+-
+iostream
+-
+boost/thread.hpp
+-
+boost/bind.hpp
+-
+boost/ref.hpp
+-
+boost/array.hpp
+-
+
