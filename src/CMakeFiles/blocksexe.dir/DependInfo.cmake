@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ethan/Programming/Tetris/src/main.cpp" "/home/ethan/Programming/Tetris/src/CMakeFiles/blocksexe.dir/main.cpp.o"
+  "/home/ethan/Programming/FallingBlocks/src/main.cpp" "/home/ethan/Programming/FallingBlocks/src/CMakeFiles/blocksexe.dir/main.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

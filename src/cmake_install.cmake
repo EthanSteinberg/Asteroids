@@ -1,4 +1,4 @@
-# Install script for directory: /home/ethan/Programming/Tetris/src
+# Install script for directory: /home/ethan/Programming/FallingBlocks/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)

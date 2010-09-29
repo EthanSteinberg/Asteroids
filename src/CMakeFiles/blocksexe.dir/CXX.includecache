@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/ethan/Programming/Tetris/src/main.cpp
+/home/ethan/Programming/FallingBlocks/src/blocks.h
+
+/home/ethan/Programming/FallingBlocks/src/main.cpp
 GL/glew.h
 -
 GL/glx.h
@@ -27,4 +29,6 @@ boost/ref.hpp
 -
 boost/array.hpp
 -
+blocks.h
+/home/ethan/Programming/FallingBlocks/src/blocks.h
 
