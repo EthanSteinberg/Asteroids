@@ -4,6 +4,7 @@
 #include <boost/tuple.hpp>
 
 typename boost::tuple<float, float> cord;
+typename boost::tuple<float, float, float> color;
 
 class bord
 {
@@ -20,13 +21,14 @@ class blok
 {
 public:
    void draw();
-   void setpos(const cord &pos);
-   void setcol(int col);
-   int getcol();
+   void setpos(const cord &newpos);
    const cord& getpos();
+   void setcol(const color &newcol);
+   const color& getcol();
+   bool exists();
 
 private:
-   int color;
+   color col;
    cord pos;
 }
 
@@ -39,7 +41,7 @@ public:
    bool checksquare(int x,int y);
 
 private:
-   rowblok rowblock[ROWS];
+   rowblok rowblock[ROWS + 1];
 }
 
 class rowblok
@@ -47,7 +49,6 @@ class rowblok
 public
    void drawall();
    bool checkrow();
-   void clearrow();
    bool checksquare(int x);
 
 private:
