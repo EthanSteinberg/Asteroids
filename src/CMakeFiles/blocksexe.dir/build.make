@@ -73,14 +73,40 @@ src/CMakeFiles/blocksexe.dir/main.cpp.o.provides: src/CMakeFiles/blocksexe.dir/m
 src/CMakeFiles/blocksexe.dir/main.cpp.o.provides.build: src/CMakeFiles/blocksexe.dir/main.cpp.o
 .PHONY : src/CMakeFiles/blocksexe.dir/main.cpp.o.provides.build
 
+src/CMakeFiles/blocksexe.dir/blocks.cpp.o: src/CMakeFiles/blocksexe.dir/flags.make
+src/CMakeFiles/blocksexe.dir/blocks.cpp.o: src/blocks.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ethan/Programming/FallingBlocks/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/blocksexe.dir/blocks.cpp.o"
+	cd /home/ethan/Programming/FallingBlocks/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/blocksexe.dir/blocks.cpp.o -c /home/ethan/Programming/FallingBlocks/src/blocks.cpp
+
+src/CMakeFiles/blocksexe.dir/blocks.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/blocksexe.dir/blocks.cpp.i"
+	cd /home/ethan/Programming/FallingBlocks/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ethan/Programming/FallingBlocks/src/blocks.cpp > CMakeFiles/blocksexe.dir/blocks.cpp.i
+
+src/CMakeFiles/blocksexe.dir/blocks.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/blocksexe.dir/blocks.cpp.s"
+	cd /home/ethan/Programming/FallingBlocks/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ethan/Programming/FallingBlocks/src/blocks.cpp -o CMakeFiles/blocksexe.dir/blocks.cpp.s
+
+src/CMakeFiles/blocksexe.dir/blocks.cpp.o.requires:
+.PHONY : src/CMakeFiles/blocksexe.dir/blocks.cpp.o.requires
+
+src/CMakeFiles/blocksexe.dir/blocks.cpp.o.provides: src/CMakeFiles/blocksexe.dir/blocks.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/blocks.cpp.o.provides.build
+.PHONY : src/CMakeFiles/blocksexe.dir/blocks.cpp.o.provides
+
+src/CMakeFiles/blocksexe.dir/blocks.cpp.o.provides.build: src/CMakeFiles/blocksexe.dir/blocks.cpp.o
+.PHONY : src/CMakeFiles/blocksexe.dir/blocks.cpp.o.provides.build
+
 # Object files for target blocksexe
 blocksexe_OBJECTS = \
-"CMakeFiles/blocksexe.dir/main.cpp.o"
+"CMakeFiles/blocksexe.dir/main.cpp.o" \
+"CMakeFiles/blocksexe.dir/blocks.cpp.o"
 
 # External object files for target blocksexe
 blocksexe_EXTERNAL_OBJECTS =
 
 build/bin/blocksexe: src/CMakeFiles/blocksexe.dir/main.cpp.o
+build/bin/blocksexe: src/CMakeFiles/blocksexe.dir/blocks.cpp.o
 build/bin/blocksexe: lib/glew-1.5.6/lib/libGLEW.a
 build/bin/blocksexe: /usr/lib64/libGLU.so
 build/bin/blocksexe: /usr/lib64/libGL.so
@@ -103,6 +129,7 @@ src/CMakeFiles/blocksexe.dir/build: build/bin/blocksexe
 .PHONY : src/CMakeFiles/blocksexe.dir/build
 
 src/CMakeFiles/blocksexe.dir/requires: src/CMakeFiles/blocksexe.dir/main.cpp.o.requires
+src/CMakeFiles/blocksexe.dir/requires: src/CMakeFiles/blocksexe.dir/blocks.cpp.o.requires
 .PHONY : src/CMakeFiles/blocksexe.dir/requires
 
 src/CMakeFiles/blocksexe.dir/clean:

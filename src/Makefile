@@ -112,6 +112,30 @@ blocksexe/fast:
 	cd /home/ethan/Programming/FallingBlocks && $(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/build
 .PHONY : blocksexe/fast
 
+blocks.o: blocks.cpp.o
+.PHONY : blocks.o
+
+# target to build an object file
+blocks.cpp.o:
+	cd /home/ethan/Programming/FallingBlocks && $(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/blocks.cpp.o
+.PHONY : blocks.cpp.o
+
+blocks.i: blocks.cpp.i
+.PHONY : blocks.i
+
+# target to preprocess a source file
+blocks.cpp.i:
+	cd /home/ethan/Programming/FallingBlocks && $(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/blocks.cpp.i
+.PHONY : blocks.cpp.i
+
+blocks.s: blocks.cpp.s
+.PHONY : blocks.s
+
+# target to generate assembly for a file
+blocks.cpp.s:
+	cd /home/ethan/Programming/FallingBlocks && $(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/blocks.cpp.s
+.PHONY : blocks.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -145,6 +169,9 @@ help:
 	@echo "... blocksexe"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... blocks.o"
+	@echo "... blocks.i"
+	@echo "... blocks.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

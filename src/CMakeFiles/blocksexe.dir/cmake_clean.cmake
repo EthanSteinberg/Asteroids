@@ -1,5 +1,6 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/blocksexe.dir/main.cpp.o"
+  "CMakeFiles/blocksexe.dir/blocks.cpp.o"
   "../build/bin/blocksexe.pdb"
   "../build/bin/blocksexe"
 )

@@ -74,7 +74,7 @@ src/preinstall:
 src/CMakeFiles/blocksexe.dir/all:
 	$(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/depend
 	$(MAKE) -f src/CMakeFiles/blocksexe.dir/build.make src/CMakeFiles/blocksexe.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ethan/Programming/FallingBlocks/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ethan/Programming/FallingBlocks/CMakeFiles  1 2
 	@echo "Built target blocksexe"
 .PHONY : src/CMakeFiles/blocksexe.dir/all
 
@@ -84,7 +84,7 @@ all: src/CMakeFiles/blocksexe.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/blocksexe.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Programming/FallingBlocks/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Programming/FallingBlocks/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/blocksexe.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Programming/FallingBlocks/CMakeFiles 0
 .PHONY : src/CMakeFiles/blocksexe.dir/rule

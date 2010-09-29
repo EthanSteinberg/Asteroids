@@ -20,6 +20,8 @@ GLXContext glc;
 
 boost::array<int,32> PressedKeys;
 
+bord board;
+
 void ReSize (int w, int h);
 void SetupRC();
 void xlibInit();
@@ -150,6 +152,7 @@ void RenderScene()
     glClear(GL_COLOR_BUFFER_BIT);
 
     //draw stuff here
+    board.drawall();
 
     glXSwapBuffers(dpy,win);
 }
@@ -171,6 +174,7 @@ void MoveEvents()
 
         //call other functions here
         //see if keys are pressed by checking the KeyPressed array
+        board.moveall();
 
         boost::this_thread::sleep(time);
     }
