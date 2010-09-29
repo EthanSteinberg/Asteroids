@@ -50,7 +50,7 @@ public:
    void drawall();
    bool checkrow();
    bool checksquare(int x);
-   void addblock(blok *block);
+   void addblock(blok *newblock);
    void movedown();
 
 private:
@@ -64,7 +64,7 @@ public:
    bool checkrow(int y);
    void clearrow(int y);
    bool checksquare(int x,int y);
-   void addblock(blok* block);
+   void addblock(blok *newblock);
 
 private:
    boost::array<rowblok,ROWS + 1> rowblock;
