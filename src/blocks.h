@@ -21,16 +21,12 @@ class selblok;
 class blok
 {
 public:
-   blok();
-   blok(const color &newcol);
-   blok(double x,double y, const color &newcol);
    void draw();
    void setpos(double x,double y);
-   const cord& getpos();
+   double getx();
+   double gety();
    void setcol(const color &newcol);
    const color& getcol();
-   void init();
-   bool exists();
    void movedown();
 
    void moved();
@@ -50,13 +46,15 @@ private:
 class rowblok
 {
 public:
+   rowblok();
    void drawall();
    bool checkrow();
    bool checksquare(int x);
+   void addblock(blok *block);
    void movedown();
 
 private:
-   boost::array<blok,COLUMNS> block;
+   boost::array<blok*,COLUMNS> block;
 };
 
 class arrblok
@@ -66,6 +64,7 @@ public:
    bool checkrow(int y);
    void clearrow(int y);
    bool checksquare(int x,int y);
+   void addblock(blok* block);
 
 private:
    boost::array<rowblok,ROWS + 1> rowblock;

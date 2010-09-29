@@ -23,19 +23,8 @@ void bord::moveall()
 //Class Blok
 //Holds color and position with a small wrapper
 
-blok::blok() : valid(0)
-{}
-
-blok::blok(const color &newcolor) : col(newcolor) , valid(0)
-{}
-
-blok::blok(double x,double y,const color &newcolor) : pos(x,y),  col(newcolor) , valid(0)
-{}
-
 void blok::draw()
 {
-   if (!valid)
-      return;
    glColor3f(col.get<0>(), col.get<1>(), col.get<2>());
    glRectf(pos.get<0>(), pos.get<1>(), pos.get<0>() + 1, pos.get<1>() + 1);
 }
@@ -45,9 +34,14 @@ void blok::setpos(double x,double y)
    pos.get<0>() = x,pos.get<1>() = y;
 }
 
-const cord& blok::getpos()
+double blok::getx()
 {
-   return pos;
+   return pos.get<0>();
+}
+
+double blok::gety()
+{
+   return pos.get<1>();
 }
 
 void blok::setcol(const color &newcol)
@@ -58,16 +52,6 @@ void blok::setcol(const color &newcol)
 const color& blok::getcol()
 {
    return col;
-}
-
-void blok::init()
-{
-   valid = 1;
-}
-
-bool blok::exists()
-{
-   return valid;
 }
 
 void blok::movedown()
@@ -130,19 +114,30 @@ bool arrblok::checksquare(int x,int y)
    return rowblock[y].checksquare(x);
 }
 
+void arrblok::addblock(blok *newblock)
+{
+   rowblock[(int) newblock->gety()].addblock(newblock);
+}
+
 //Class RowBlok
 //Holds an array of blocks
+
+rowblok::rowblok() 
+{
+   boost::array<blok*,COLUMNS> block = {};
+}
 
 void rowblok::drawall()
 {
    for (int i = 0;i<COLUMNS;i++)
-      block[i].draw();
+      if (block[i])
+	 block[i]->draw();
 }
 
 bool rowblok::checkrow()
 {
    for (int i = 0;i<COLUMNS;i++)
-      if (!block[i].exists())
+      if (!block[i])
 	 return 0;
 
    return 1;
@@ -150,13 +145,19 @@ bool rowblok::checkrow()
 
 bool rowblok::checksquare(int x)
 {
-   return block[x].exists();
+   return block[x];
+}
+
+void rowblok::addblock(blok *newblock)
+{
+   block[(int) newblock->getx()] = newblock;
 }
 
 void rowblok::movedown()
 {
    for (int i = 0;i<COLUMNS;i++)
-      block[i].movedown();
+      if (block[i])
+	 block[i]->movedown();
 }
 
 //Class SelBlok
@@ -167,7 +168,7 @@ selblok::selblok(int type)
    const color GREEN(0,1,0);
 
    for (int i = 0;i<4;i++)
-      block[i].init(),block[i].setcol(GREEN);
+      block[i].setcol(GREEN);
 
 
    block[2].setpos(COLUMNS/2,ROWS);

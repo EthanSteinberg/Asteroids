@@ -6,15 +6,33 @@
 
 #IncludeRegexTransform: 
 
-/home/ethan/Programming/FallingBlocks/src/blocks.cpp
-blocks.h
--
-GL/gl.h
--
-
-src/blocks.h
+/home/ethan/Programming/FallingBlocks/src/blocks.h
 boost/tuple/tuple.hpp
 -
 boost/array.hpp
 -
+
+/home/ethan/Programming/FallingBlocks/src/main.cpp
+GL/glew.h
+-
+GL/glx.h
+-
+GL/glu.h
+-
+X11/Xlib.h
+-
+X11/keysym.h
+-
+iostream
+-
+boost/thread.hpp
+-
+boost/bind.hpp
+-
+boost/ref.hpp
+-
+boost/array.hpp
+-
+blocks.h
+/home/ethan/Programming/FallingBlocks/src/blocks.h
 
