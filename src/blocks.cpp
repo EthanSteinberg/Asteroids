@@ -34,6 +34,8 @@ blok::blok(double x,double y,const color &newcolor) : pos(x,y),  col(newcolor) ,
 
 void blok::draw()
 {
+   if (!valid)
+      return;
    glColor3f(col.get<0>(), col.get<1>(), col.get<2>());
    glRectf(pos.get<0>(), pos.get<1>(), pos.get<0>() + 1, pos.get<1>() + 1);
 }
@@ -56,6 +58,11 @@ void blok::setcol(const color &newcol)
 const color& blok::getcol()
 {
    return col;
+}
+
+void blok::init()
+{
+   valid = 1;
 }
 
 bool blok::exists()
@@ -160,7 +167,7 @@ selblok::selblok(int type)
    const color GREEN(0,1,0);
 
    for (int i = 0;i<4;i++)
-      block[i].setcol(GREEN);
+      block[i].init(),block[i].setcol(GREEN);
 
 
    block[2].setpos(COLUMNS/2,ROWS);

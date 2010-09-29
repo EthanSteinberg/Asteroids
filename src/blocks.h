@@ -29,6 +29,7 @@ public:
    const cord& getpos();
    void setcol(const color &newcol);
    const color& getcol();
+   void init();
    bool exists();
    void movedown();
 
