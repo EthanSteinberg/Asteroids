@@ -2,6 +2,7 @@
 #define BLOCKS_H_INCLUDED
 
 #include <boost/tuple/tuple.hpp>
+#include <boost/array.hpp>
 
 typedef boost::tuple<float, float> cord;
 typedef boost::tuple<float, float, float> color;
@@ -22,8 +23,9 @@ class blok
 public:
    blok();
    blok(const color &newcol);
+   blok(double x,double y, const color &newcol);
    void draw();
-   void setpos(const cord &newpos);
+   void setpos(double x,double y);
    const cord& getpos();
    void setcol(const color &newcol);
    const color& getcol();
@@ -33,6 +35,10 @@ public:
    void moved();
    void movel();
    void mover();
+
+   bool canmoved(const arrblok &arrblock);
+   bool canmovel(const arrblok &arrblock);
+   bool canmover(const arrblok &arrblock);
 
 private:
    color col;
@@ -49,7 +55,7 @@ public:
    void movedown();
 
 private:
-   blok block[COLUMNS];
+   boost::array<blok,COLUMNS> block;
 };
 
 class arrblok
@@ -61,33 +67,35 @@ public:
    bool checksquare(int x,int y);
 
 private:
-   rowblok rowblock[ROWS + 1];
+   boost::array<rowblok,ROWS + 1> rowblock;
 };
 
 class selblok
 {
 public:
+   selblok(int type);
    void drawall();
    
-   void mover();
-   void movel();
-   void moved();
+   void mover(const arrblok &arrblock);
+   void movel(const arrblok &arrblock);
+   void moved(const arrblok &arrblock);
    
    void rotater();
    void rotatel();
 
 private:
-   blok block[4];
+   boost::array<blok,4> block;
 };
 
 class bord
 {
 public:
+   bord();
    void drawall();
    void moveall();
 
 private:
-   selblok selblock;
+   selblok *selblock;
    arrblok arrblock;
 };
 
