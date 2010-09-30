@@ -1,6 +1,8 @@
 #include <blocks.h>
 #include <GL/gl.h>
 
+extern boost::array<int,32> PressedKeys;
+
 //Class Bord
 //Container for other classes with general function
 
@@ -9,7 +11,7 @@ bord::bord()
    selblock = new selblok(0);
 }
 
-void bord::drawall()
+void bord::drawall() const
 {
    selblock->drawall();
    arrblock.drawall();
@@ -17,13 +19,25 @@ void bord::drawall()
 
 void bord::moveall()
 {
-   selblock->moved(arrblock);
+   int hit = 0;
+   hit += selblock->moved(arrblock);
+   if (PressedKeys[0])
+      hit += selblock->movel(arrblock);
+   if (PressedKeys[1])
+      hit += selblock->mover(arrblock);
+
+   if (hit)
+   {
+      selblock->addblock(&arrblock);
+      delete selblock;
+      selblock = new selblok(0);
+   }
 }
 
 //Class Blok
 //Holds color and position with a small wrapper
 
-void blok::draw()
+void blok::draw() const
 {
    glColor3f(col.get<0>(), col.get<1>(), col.get<2>());
    glRectf(pos.get<0>(), pos.get<1>(), pos.get<0>() + 1, pos.get<1>() + 1);
@@ -34,12 +48,12 @@ void blok::setpos(double x,double y)
    pos.get<0>() = x,pos.get<1>() = y;
 }
 
-double blok::getx()
+double blok::getx() const
 {
    return pos.get<0>();
 }
 
-double blok::gety()
+double blok::gety() const
 {
    return pos.get<1>();
 }
@@ -49,7 +63,7 @@ void blok::setcol(const color &newcol)
    col = newcol;
 }
 
-const color& blok::getcol()
+const color& blok::getcol() const
 {
    return col;
 }
@@ -74,31 +88,31 @@ void blok::mover()
    pos.get<0>() += MOVEMENT;
 }
 
-bool blok::canmoved(const arrblok &arrblock)
+bool blok::canmoved(const arrblok &arrblock) const
 {
-   return pos.get<1>() - DOWNMOVEMENT > 0;
+   return pos.get<1>() - DOWNMOVEMENT > 0 && !arrblock.checksquare(pos.get<0>(),pos.get<1>());
 }
 
-bool blok::canmovel(const arrblok &arrblock)
+bool blok::canmovel(const arrblok &arrblock) const
 {
-   return pos.get<0>() - MOVEMENT > 0;
+   return pos.get<0>() - MOVEMENT > 0 && !arrblock.checksquare(pos.get<0>(),pos.get<1>());
 }
 
-bool blok::canmover(const arrblok &arrblock)
+bool blok::canmover(const arrblok &arrblock) const
 {
-   return pos.get<0>() + MOVEMENT < COLUMNS;
+   return pos.get<0>() + MOVEMENT < COLUMNS && !arrblock.checksquare(pos.get<0>() + 1,pos.get<1>());
 }
 
 //Class ArrBlok
 //Holds an array of RowBlocks
 
-void arrblok::drawall()
+void arrblok::drawall() const
 {
    for (int i = 0;i<ROWS;i++)
       rowblock[i].drawall();
 }
 
-bool arrblok::checkrow(int y)
+bool arrblok::checkrow(int y) const
 {
    return rowblock[y].checkrow();
 }
@@ -109,7 +123,7 @@ void arrblok::clearrow(int y)
       rowblock[i] = rowblock[i+1],rowblock[i].movedown();
 }
 
-bool arrblok::checksquare(int x,int y)
+bool arrblok::checksquare(int x,int y) const
 {
    return rowblock[y].checksquare(x);
 }
@@ -127,14 +141,14 @@ rowblok::rowblok()
    boost::array<blok*,COLUMNS> block = {};
 }
 
-void rowblok::drawall()
+void rowblok::drawall() const
 {
    for (int i = 0;i<COLUMNS;i++)
-      if (block[i])
+      if (block[i] != NULL)
 	 block[i]->draw();
 }
 
-bool rowblok::checkrow()
+bool rowblok::checkrow() const
 {
    for (int i = 0;i<COLUMNS;i++)
       if (!block[i])
@@ -143,7 +157,7 @@ bool rowblok::checkrow()
    return 1;
 }
 
-bool rowblok::checksquare(int x)
+bool rowblok::checksquare(int x) const
 {
    return block[x];
 }
@@ -177,38 +191,44 @@ selblok::selblok(int type)
    block[0].setpos(COLUMNS/2 -1,ROWS -1);
 }
 
-void selblok::drawall()
+void selblok::drawall() const
 {
    for (int i =0;i<4;i++)
       block[i].draw();
 }
 
-void selblok::mover(const arrblok &arrblock)
+bool selblok::mover(const arrblok &arrblock)
 {
    for (int i=0;i<4;i++)
       if (!block[i].canmover(arrblock))
-	 return;
+	 return 1;
 
    for (int i=0;i<4;i++)
-      block[i].moved();
+      block[i].mover();
 }
 
-void selblok::movel(const arrblok &arrblock)
+bool selblok::movel(const arrblok &arrblock)
 {
    for (int i=0;i<4;i++)
       if (!block[i].canmovel(arrblock))
-	 return;
+	 return 1;
 
    for (int i=0;i<4;i++)
       block[i].movel();
 }
 
-void selblok::moved(const arrblok &arrblock)
+bool selblok::moved(const arrblok &arrblock)
 {
    for(int i=0;i<4;i++)
       if (!block[i].canmoved(arrblock))
-	 return;
+	 return 1;
 
    for(int i=0;i<4;i++)
       block[i].moved();
+}
+
+void selblok::addblock(arrblok *arrblock)
+{
+   for(int i=0;i<4;i++)
+      arrblock->addblock(&block[i]);
 }

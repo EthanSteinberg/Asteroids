@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
 
@@ -34,8 +34,6 @@ using namespace std;
 
 int main ()
 {
-    glewInit();
-
     xlibInit();
 
     SetupRC();
@@ -90,7 +88,7 @@ void MainLoop()
 {
     XEvent xev;
     XWindowAttributes gwa;
-    XAutoRepeatOff(dpy);
+    //XAutoRepeatOff(dpy);
 
     StartMoveEvents();
 
@@ -117,7 +115,7 @@ void MainLoop()
                     glXDestroyContext(dpy, glc);
                     XDestroyWindow(dpy, win);
                     XCloseDisplay(dpy);
-		    XAutoRepeatOn(dpy);
+		    //XAutoRepeatOn(dpy);
                     exit(0);
                     break;
                 case XK_a:

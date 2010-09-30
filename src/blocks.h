@@ -21,35 +21,34 @@ class selblok;
 class blok
 {
 public:
-   void draw();
+   void draw() const;
    void setpos(double x,double y);
-   double getx();
-   double gety();
+   double getx() const;
+   double gety() const;
    void setcol(const color &newcol);
-   const color& getcol();
+   const color& getcol() const;
    void movedown();
 
    void moved();
    void movel();
    void mover();
 
-   bool canmoved(const arrblok &arrblock);
-   bool canmovel(const arrblok &arrblock);
-   bool canmover(const arrblok &arrblock);
+   bool canmoved(const arrblok &arrblock) const;
+   bool canmovel(const arrblok &arrblock) const;
+   bool canmover(const arrblok &arrblock) const;
 
 private:
    color col;
    cord pos;
-   bool valid;
 };
 
 class rowblok
 {
 public:
    rowblok();
-   void drawall();
-   bool checkrow();
-   bool checksquare(int x);
+   void drawall() const;
+   bool checkrow() const;
+   bool checksquare(int x) const;
    void addblock(blok *newblock);
    void movedown();
 
@@ -60,10 +59,10 @@ private:
 class arrblok
 {
 public:
-   void drawall();
-   bool checkrow(int y);
+   void drawall() const;
+   bool checkrow(int y) const;
    void clearrow(int y);
-   bool checksquare(int x,int y);
+   bool checksquare(int x,int y) const;
    void addblock(blok *newblock);
 
 private:
@@ -74,11 +73,12 @@ class selblok
 {
 public:
    selblok(int type);
-   void drawall();
-   
-   void mover(const arrblok &arrblock);
-   void movel(const arrblok &arrblock);
-   void moved(const arrblok &arrblock);
+   void drawall() const;
+   void addblock(arrblok *arrblock);
+
+   bool mover(const arrblok &arrblock);
+   bool movel(const arrblok &arrblock);
+   bool moved(const arrblok &arrblock);
    
    void rotater();
    void rotatel();
@@ -91,7 +91,7 @@ class bord
 {
 public:
    bord();
-   void drawall();
+   void drawall() const;
    void moveall();
 
 private:

@@ -19,7 +19,7 @@ boost/array.hpp
 -
 
 /home/ethan/Programming/FallingBlocks/src/main.cpp
-GL/glew.h
+GL/gl.h
 -
 GL/glx.h
 -
