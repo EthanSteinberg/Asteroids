@@ -59,7 +59,7 @@ void ReSize (int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glOrtho(0.0f,COLUMNS,0.0f,ROWS,0.0f,1.0f);
+    glOrtho(-0.5f,COLUMNS,-0.5f,ROWS,0.0f,1.0f);
 
     glMatrixMode(GL_MODELVIEW);
 }

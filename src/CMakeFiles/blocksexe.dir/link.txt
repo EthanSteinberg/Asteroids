@@ -1,1 +1,1 @@
-/usr/bin/c++      CMakeFiles/blocksexe.dir/main.cpp.o CMakeFiles/blocksexe.dir/blocks.cpp.o  -o ../build/bin/blocksexe -rdynamic -lstdc++ ../lib/glew-1.5.6/lib/libGLEW.a -lGLU -lGL -lSM -lICE -lX11 -lXext -lSM -lICE -lX11 -lXext -lboost_thread-mt-1_41 
+/usr/bin/c++   -g -Wall -Wextra -Wshadow -Werror -pedantic   CMakeFiles/blocksexe.dir/main.cpp.o CMakeFiles/blocksexe.dir/blocks.cpp.o  -o ../build/bin/blocksexe -rdynamic -lstdc++ -lGLU -lGL -lSM -lICE -lX11 -lXext -lSM -lICE -lX11 -lXext -lboost_thread-mt-1_41 

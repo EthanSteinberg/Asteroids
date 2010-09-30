@@ -107,7 +107,6 @@ blocksexe_EXTERNAL_OBJECTS =
 
 build/bin/blocksexe: src/CMakeFiles/blocksexe.dir/main.cpp.o
 build/bin/blocksexe: src/CMakeFiles/blocksexe.dir/blocks.cpp.o
-build/bin/blocksexe: lib/glew-1.5.6/lib/libGLEW.a
 build/bin/blocksexe: /usr/lib64/libGLU.so
 build/bin/blocksexe: /usr/lib64/libGL.so
 build/bin/blocksexe: /usr/lib64/libSM.so
