@@ -20,8 +20,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
+#include <SFML/Window.hpp>
 
 #include <iostream>
 
@@ -132,8 +131,8 @@ void MainLoop()
                     glXMakeCurrent(dpy, None, NULL);
                     glXDestroyContext(dpy, glc);
                     XDestroyWindow(dpy, win);
-                    XCloseDisplay(dpy);
 		    //XAutoRepeatOn(dpy);
+                    XCloseDisplay(dpy);
                     exit(0);
                     break;
                 case XK_r:
