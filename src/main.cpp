@@ -118,12 +118,18 @@ void MainLoop()
 		    //XAutoRepeatOn(dpy);
                     exit(0);
                     break;
-                case XK_a:
+                case XK_r:
                     PressedKeys[0] = 1;
                     break;
-                case XK_s:
+                case XK_w:
                     PressedKeys[1] = 1;
                     break;
+	        case XK_s:
+		    PressedKeys[2] = 1;
+		    break;
+	        case XK_a:
+		    PressedKeys[3] = 1;
+		    break;
                 }
             }
 
@@ -131,12 +137,18 @@ void MainLoop()
             {
                 switch (XLookupKeysym(&xev.xkey,0))
                 {
-                case XK_a:
+                case XK_r:
                     PressedKeys[0] = 0;
                     break;
-                case XK_s:
+                case XK_w:
                     PressedKeys[1] = 0;
                     break;
+	        case XK_s:
+		    PressedKeys[2] = 0;
+		    break;
+	        case XK_a:
+		    PressedKeys[3] = 0;
+		    break;
                 }
             }
         }

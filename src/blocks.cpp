@@ -24,20 +24,20 @@ void bord::drawall() const
 
 void bord::moveall()
 {
-   int hit = 0;
-   selblock->moved(arrblock,&hit);
    if (PressedKeys[0])
-      selblock->movel(arrblock,&hit);
+      PressedKeys[0] = 0,selblock->rotatel(arrblock);
    if (PressedKeys[1])
-      selblock->mover(arrblock,&hit);
+      PressedKeys[1] = 0,selblock->rotater(arrblock);
+   if (PressedKeys[2])
+      selblock->mover(arrblock);
+   if (PressedKeys[3])
+      selblock->movel(arrblock);
 
-   if (hit)
+   if (selblock->moved(arrblock))
    {
       selblock->addblock(&arrblock);
       delete selblock;
-      int lol = std::rand() % 4;
-      std::cout<<lol<<std::endl;
-      selblock = new selblok(lol);
+      selblock = new selblok(rand() %7);
    }
 
    for (int i =0;i<ROWS;i++)
@@ -101,19 +101,33 @@ void blok::mover()
    pos.get<0>() += MOVEMENT;
 }
 
-bool blok::canmoved(const arrblok &arrblock, int *hit) const
+bool blok::canmoved(const arrblok &arrblock) const
 {
-   return !((*hit += !(pos.get<1>() - 4 * DOWNMOVEMENT > 0)) || (*hit += arrblock.checksquare(pos.get<0>() + .5,pos.get<1>())) );
+   return (pos.get<1>() - 4 * DOWNMOVEMENT > 0) && !arrblock.checksquare(pos.get<0>() + .5,pos.get<1>());
 }
 
-bool blok::canmovel(const arrblok &arrblock, int *hit) const
+bool blok::canmovel(const arrblok &arrblock) const
 {
-   return (pos.get<0>() - MOVEMENT > 0) && !(*hit += arrblock.checksquare(pos.get<0>(),pos.get<1>() + .5));
+   return (pos.get<0>() - MOVEMENT > 0) && !arrblock.checksquare(pos.get<0>(),pos.get<1>() + .5);
 }
 
-bool blok::canmover(const arrblok &arrblock, int *hit) const
+bool blok::canmover(const arrblok &arrblock) const
 {
-   return ((pos.get<0>() + MOVEMENT + 1) < COLUMNS) && !(*hit += arrblock.checksquare(pos.get<0>() + 1,pos.get<1>() + .5));
+   return ((pos.get<0>() + MOVEMENT + 1) < COLUMNS) && !arrblock.checksquare(pos.get<0>() + 1,pos.get<1>() + .5);
+}
+
+void blok::rotater(const blok *origin)
+{
+   double x = -pos.get<1>() + origin->gety() + origin->getx();
+   pos.get<1>() = pos.get<0>() - origin->getx() + origin->gety();
+   pos.get<0>() = x;
+}
+   
+void blok::rotatel(const blok *origin)
+{
+   double x = pos.get<1>() - origin->gety() + origin->getx();
+   pos.get<1>() = -pos.get<0>() + origin->getx() + origin->gety();
+   pos.get<0>() = x;
 }
 
 //Class ArrBlok
@@ -198,6 +212,9 @@ selblok::selblok(int type)
    const color RED(1,0,0);
    const color BLUE(0,0,.5);
    const color PURPLE(.6,0,1);
+   const color ORANGE(1,.6,0);
+   const color OLIVE(.5,.5,0);
+   const color YELLOW(1,1,0);
 
    switch(type)
    {
@@ -252,6 +269,45 @@ selblok::selblok(int type)
 	 block[1]->setpos(COLUMNS/2,ROWS-1);
 	 block[0]->setpos(COLUMNS/2-1,ROWS-1);
 	 break;
+
+      case 4:
+	 for (int i =0;i<4;i++)
+	 {
+	    block[i] = new blok;
+	    block[i]->setcol(YELLOW);
+	 }
+	 
+	 block[2]->setpos(COLUMNS/2,ROWS);
+	 block[3]->setpos(COLUMNS/2+1,ROWS);
+	 block[1]->setpos(COLUMNS/2+2,ROWS);
+	 block[0]->setpos(COLUMNS/2-1,ROWS);
+	 break;
+
+      case 5:
+	 for (int i =0;i<4;i++)
+	 {
+	    block[i] = new blok;
+	    block[i]->setcol(OLIVE);
+	 }
+	 
+	 block[2]->setpos(COLUMNS/2,ROWS);
+	 block[3]->setpos(COLUMNS/2+1,ROWS);
+	 block[1]->setpos(COLUMNS/2-1,ROWS);
+	 block[0]->setpos(COLUMNS/2-1,ROWS-1);
+	 break;
+
+      case 6:
+	 for (int i =0;i<4;i++)
+	 {
+	    block[i] = new blok;
+	    block[i]->setcol(ORANGE);
+	 }
+	 
+	 block[2]->setpos(COLUMNS/2,ROWS);
+	 block[3]->setpos(COLUMNS/2+1,ROWS);
+	 block[1]->setpos(COLUMNS/2-1,ROWS);
+	 block[0]->setpos(COLUMNS/2+1,ROWS-1);
+	 break;
    }
 
 }
@@ -262,10 +318,10 @@ void selblok::drawall() const
       block[i]->draw();
 }
 
-bool selblok::mover(const arrblok &arrblock,int *hit)
+bool selblok::mover(const arrblok &arrblock)
 {
    for (int i=0;i<4;i++)
-      if (!block[i]->canmover(arrblock,hit))
+      if (!block[i]->canmover(arrblock))
       {
 	 return 1;
       }
@@ -276,10 +332,10 @@ bool selblok::mover(const arrblok &arrblock,int *hit)
    return 0;
 }
 
-bool selblok::movel(const arrblok &arrblock,int *hit)
+bool selblok::movel(const arrblok &arrblock)
 {
    for (int i=0;i<4;i++)
-      if (!block[i]->canmovel(arrblock,hit))
+      if (!block[i]->canmovel(arrblock))
       {
 	 return 1;
       }
@@ -290,10 +346,10 @@ bool selblok::movel(const arrblok &arrblock,int *hit)
    return 0;
 }
 
-bool selblok::moved(const arrblok &arrblock,int *hit)
+bool selblok::moved(const arrblok &arrblock)
 {
    for(int i=0;i<4;i++)
-      if (!block[i]->canmoved(arrblock,hit))
+      if (!block[i]->canmoved(arrblock))
       {
 	 return 1;
       }
@@ -310,4 +366,34 @@ void selblok::addblock(arrblok *arrblock)
    {
       arrblock->addblock(block[i]);
    }
+}
+
+void selblok::rotater(const arrblok  &arrblock)
+{
+   for (int i = 0;i<4;i++)
+      block[i]->rotater(block[2]);
+
+   int bad = 0;
+   for (int i =0;i<4;i++)
+      if (!block[i]->canmoved(arrblock))
+	 bad =1;
+
+   if (bad)
+      for (int i =0;i<4;i++)
+	 block[i]->rotatel(block[2]);
+}
+
+void selblok::rotatel(const arrblok &arrblock)
+{
+   for (int i = 0;i<4;i++)
+      block[i]->rotatel(block[2]);
+
+   int bad = 0;
+   for (int i =0;i<4;i++)
+      if (!block[i]->canmoved(arrblock))
+	 bad =1;
+
+   if (bad)
+      for (int i=0;i<4;i++)
+	 block[i]->rotater(block[2]);
 }

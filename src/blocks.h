@@ -33,9 +33,12 @@ public:
    void movel();
    void mover();
 
-   bool canmoved(const arrblok &arrblock, int *hit) const;
-   bool canmovel(const arrblok &arrblock, int *hit) const;
-   bool canmover(const arrblok &arrblock, int *hit) const;
+   bool canmoved(const arrblok &arrblock) const;
+   bool canmovel(const arrblok &arrblock) const;
+   bool canmover(const arrblok &arrblock) const;
+
+   void rotater(const blok *origin);
+   void rotatel(const blok *origin);
 
 private:
    color col;
@@ -76,12 +79,12 @@ public:
    void drawall() const;
    void addblock(arrblok *arrblock);
 
-   bool mover(const arrblok &arrblock, int *hit);
-   bool movel(const arrblok &arrblock, int *hit);
-   bool moved(const arrblok &arrblock, int *hit);
+   bool mover(const arrblok &arrblock);
+   bool movel(const arrblok &arrblock);
+   bool moved(const arrblok &arrblock);
    
-   void rotater();
-   void rotatel();
+   void rotater(const arrblok &arrblock);
+   void rotatel(const arrblok &arrblock);
 
 private:
    boost::array<blok*,4> block;
