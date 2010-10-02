@@ -58,6 +58,7 @@ public:
    void rotater(const blok *origin);
    void rotatel(const blok *origin);
 
+   bool canrotate(const arrblok &arrblock);
 private:
    color col;
    cord pos;

@@ -148,6 +148,15 @@ void blok::rotatel(const blok *origin)
    pos.get<0>() = x;
 }
 
+bool blok::canrotate(const arrblok &arrblock)
+{
+   return ( (pos.get<1>() > 0) && 
+	    (pos.get<1>() < ROWS) && 
+	    (pos.get<0>() > 0) && 
+	    (pos.get<0>() < COLUMNS -1) && 
+	    !arrblock.checksquare(pos.get<0>(),pos.get<1>())
+	  );
+}
 //Class ArrBlok
 //Holds an array of RowBlocks
 
@@ -393,7 +402,7 @@ void selblok::rotater(const arrblok  &arrblock)
 
    int bad = 0;
    for (int i =0;i<4;i++)
-      if (!block[i]->canmoved(arrblock))
+      if (!block[i]->canrotate(arrblock))
 	 bad =1;
 
    if (bad)
@@ -408,7 +417,7 @@ void selblok::rotatel(const arrblok &arrblock)
 
    int bad = 0;
    for (int i =0;i<4;i++)
-      if (!block[i]->canmoved(arrblock))
+      if (!block[i]->canrotate(arrblock))
 	 bad =1;
 
    if (bad)
