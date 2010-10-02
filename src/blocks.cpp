@@ -17,11 +17,13 @@
 //  3. This notice may not be removed or altered from any source distribution.
 
 #include <blocks.h>
-#include <GL/gl.h>
 #include <iostream>
+
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
+
+#include <SFML/Window.hpp>
 
 extern boost::array<int,32> PressedKeys;
 

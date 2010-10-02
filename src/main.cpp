@@ -15,11 +15,6 @@
 //  2. Altered source versions must be plainly marked as such, and must not be
 //     misrepresented as being the original software.
 //  3. This notice may not be removed or altered from any source distribution.
-
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
-
 #include <SFML/Window.hpp>
 
 #include <iostream>
@@ -31,9 +26,7 @@
 
 #include "blocks.h"
 
-Display *dpy;
-Window win;
-GLXContext glc;
+sf::Window *App;
 
 boost::array<int,32> PressedKeys;
 
@@ -51,11 +44,13 @@ using namespace std;
 
 int main ()
 {
-    xlibInit();
-
+    App = new sf::Window(sf::VideoMode(800, 600, 32), "SFML Window");
+    assert(App->SetActive(true));
     SetupRC();
-
+    ReSize(800,600);
     MainLoop();
+
+    std::cin.get();
 }
 
 void SetupRC()
@@ -81,92 +76,63 @@ void ReSize (int w, int h)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void xlibInit()
-{
-    XSetWindowAttributes swa;
-    GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-
-    dpy = XOpenDisplay(NULL); //connect to X server
-    Window root = DefaultRootWindow(dpy); //Get window of OS
-    XVisualInfo *vi = glXChooseVisual(dpy, 0, att); //get closest visual to what we want
-
-    Colormap cmap = XCreateColormap(dpy, root, vi->visual, AllocNone); //create color map
-    swa.colormap = cmap; //set color map to created one
-    swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask; //set event map to key presses and resizes
-    win = XCreateWindow(dpy, root, 0, 0, 600, 600, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa); //create window
-
-    XMapWindow(dpy, win); //draw window
-    XStoreName(dpy, win, "VERY SIMPLE APPLICATION"); //name window
-    glc = glXCreateContext(dpy, vi, NULL, GL_FALSE);//connect to OpenGl, with new context
-    glXMakeCurrent(dpy, win, glc); //connect opengl calls to opengl window
-}
-
 void MainLoop()
 {
-    XEvent xev;
-    XWindowAttributes gwa;
-    //XAutoRepeatOff(dpy);
-
     StartMoveEvents();
 
     boost::system_time time = boost::get_system_time();
 
     for (;;)
     {
-        while (XPending(dpy))
+        sf::Event Event;
+        while (App->GetEvent(Event))
         {
-            XNextEvent(dpy, &xev);
-
-            if(xev.type == Expose)
+            if(Event.Type == sf::Event::Resized)
             {
-                XGetWindowAttributes(dpy, win, &gwa);
-                ReSize(gwa.width, gwa.height);
+                ReSize(Event.Size.Width,Event.Size.Height);
             }
 
-            else if(xev.type == KeyPress)
+            else if(Event.Type == sf::Event::KeyPressed)
             {
-                switch (XLookupKeysym(&xev.xkey,0))
+                switch (Event.Key.Code)
                 {
-                case XK_Return:
-                    glXMakeCurrent(dpy, None, NULL);
-                    glXDestroyContext(dpy, glc);
-                    XDestroyWindow(dpy, win);
-		    //XAutoRepeatOn(dpy);
-                    XCloseDisplay(dpy);
+                case sf::Key::Return:
                     exit(0);
                     break;
-                case XK_r:
+                case 'r':
                     PressedKeys[0] = 1;
                     break;
-                case XK_w:
+                case 'w':
                     PressedKeys[1] = 1;
                     break;
-	        case XK_s:
+	        case 's':
 		    PressedKeys[2] = 1;
 		    break;
-	        case XK_a:
+	        case 'a':
 		    PressedKeys[3] = 1;
 		    break;
+	        default: ;
                 }
             }
 
-            else if(xev.type == KeyRelease)
+            else if(Event.Type == sf::Event::KeyReleased)
             {
-                switch (XLookupKeysym(&xev.xkey,0))
+                switch (Event.Key.Code)
                 {
-                case XK_r:
+                case 'r':
                     PressedKeys[0] = 0;
                     break;
-                case XK_w:
+                case 'w':
                     PressedKeys[1] = 0;
                     break;
-	        case XK_s:
+	        case 's':
 		    PressedKeys[2] = 0;
 		    break;
-	        case XK_a:
+	        case 'a':
 		    PressedKeys[3] = 0;
 		    break;
-                }
+                default: ;
+		}
             }
         }
         boost::this_thread::sleep(time);
@@ -177,12 +143,12 @@ void MainLoop()
 
 void RenderScene()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //draw stuff here
     board.drawall();
 
-    glXSwapBuffers(dpy,win);
+    App->Display();
 }
 
 void StartMoveEvents()
