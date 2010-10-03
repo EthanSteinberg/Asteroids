@@ -15,6 +15,8 @@
 //  2. Altered source versions must be plainly marked as such, and must not be
 //     misrepresented as being the original software.
 //  3. This notice may not be removed or altered from any source distribution.
+
+#include <GL/glew.h>
 #include <SFML/Window.hpp>
 
 #include <iostream>
@@ -24,13 +26,11 @@
 #include <boost/ref.hpp>
 #include <boost/array.hpp>
 
-#include "blocks.h"
+#include <testing.h>
 
 sf::Window *App;
 
 boost::array<int,32> PressedKeys;
-
-bord board;
 
 void ReSize (int w, int h);
 void SetupRC();
@@ -46,6 +46,8 @@ int main ()
 {
     App = new sf::Window(sf::VideoMode(800, 600, 32), "SFML Window");
     assert(App->SetActive(true));
+    
+    glewInit();
     SetupRC();
     ReSize(800,600);
     MainLoop();
@@ -55,6 +57,8 @@ int main ()
 
 void SetupRC()
 {
+    testingInit();
+
     glClearColor(0.0f,0.0f,1.0f,1.0f);
 
     glColor3f(0.0f,1.0f,0.0f);
@@ -67,13 +71,6 @@ void ReSize (int w, int h)
     if (h == 0)
         h = 1;
     glViewport(0,0,w,h);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glOrtho(-0.5f,COLUMNS,-0.5f,ROWS,0.0f,1.0f);
-
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void MainLoop()
@@ -146,7 +143,7 @@ void RenderScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //draw stuff here
-    board.drawall();
+    testing();
 
     App->Display();
 }
@@ -168,7 +165,6 @@ void MoveEvents()
 
         //call other functions here
         //see if keys are pressed by checking the KeyPressed array
-        board.moveall();
 
         boost::this_thread::sleep(time);
     }
