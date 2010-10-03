@@ -8,9 +8,10 @@ out vec2 textcord;
 
 uniform vec2 bottomLeft;
 uniform ivec2 text;
+uniform int YScale;
 
 void main(void) {
-   gl_Position = vec4(in_Position.x + bottomLeft.x, in_Position.y + bottomLeft.y, 0.0, 1.0);
-   textcord = (in_Position  *  vec2(10,-10) + text)/2  ;
+   gl_Position = vec4(in_Position.x + bottomLeft.x, in_Position.y * YScale + bottomLeft.y, 0.0, 1.0);
+   textcord = (in_Position  *   vec2(10,-10 * YScale) + text)/2  ;
    ex_Color = in_Color;
 }

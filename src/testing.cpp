@@ -10,6 +10,7 @@ using namespace Magick;
 int array[20][20] = {{1,1,1,1,1,1,1,1,0},{1},{1},{1},{1},{1},{1},{1},{1},{1}};
 static int PosUniform;
 static int TextUniform;
+static int YScaleUniform;
 
 GLuint makeShader(const char *filename,GLuint type);
 GLuint maketexture(const char *filename);
@@ -51,21 +52,22 @@ GLuint Program;
 
 void testing()
 {
-   static int PointsToDraw = 4;
-  
+   glUniform1i(YScaleUniform,1);  
+   
    int *place = array[0];
    for (float x = -1;x<1;x += .1)
       for (float y = -1;y<1;y += .1)
       {
 	 int l = 1 - *place++;
-	 glUniform2i(TextUniform,l,1);
+	 glUniform2i(TextUniform,1,l);
          glUniform2f(PosUniform,x,y);
-	 glDrawElements(GL_TRIANGLE_STRIP, PointsToDraw, GL_UNSIGNED_BYTE,0);
+	 glDrawElements(GL_TRIANGLE_STRIP,4, GL_UNSIGNED_BYTE,0);
       }
 
+   glUniform1i(YScaleUniform,2);
    glUniform2i(TextUniform,0,0);
    glUniform2f(PosUniform,-.5,-.9);
-   glDrawElements(GL_TRIANGLE_STRIP, PointsToDraw,GL_UNSIGNED_BYTE,0);
+   glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_BYTE,0);
 //      glUniform2i(TextUniform,0,1);
 //      glUniform2f(PosUniform,0,0);
 //      glDrawElements(GL_TRIANGLE_STRIP,PointsToDraw,GL_UNSIGNED_BYTE,0);
@@ -85,8 +87,6 @@ void testing()
    else 
       printf("Other error");
    }
-   if (PointsToDraw == 5)
-      PointsToDraw = 2;
 }
 
 void testingInit()
@@ -149,6 +149,7 @@ void testingInit()
    
    PosUniform = glGetUniformLocation(Program,"bottomLeft");
    TextUniform = glGetUniformLocation(Program,"text");
+   YScaleUniform = glGetUniformLocation(Program,"YScale");
 
    char log[1000];
    glGetShaderInfoLog(frag,1000,NULL,log);
