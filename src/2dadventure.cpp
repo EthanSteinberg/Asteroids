@@ -27,6 +27,8 @@ int PosUniform;
 int TextUniform;
 int YScaleUniform;
 
+int array[20][20] = {{1,1,1,1,1,1,1,1,0},{1},{1},{1},{1},{1},{1},{1},{1},{1}};
+
 void graphicsInit()
 {
    GLuint frag = makeShader("frag",GL_FRAGMENT_SHADER);
@@ -96,4 +98,37 @@ void graphicsInit()
 
 void graphicsTest()
 {
+   glUniform1i(YScaleUniform,1);  
+   
+   int *place = array[0];
+   for (float x = -1;x<1;x += .1)
+      for (float y = -1;y<1;y += .1)
+      {
+	 int l = 1 - *place++;
+	 glUniform2i(TextUniform,1,l);
+         glUniform2f(PosUniform,x,y);
+	 glDrawElements(GL_TRIANGLE_STRIP,4, GL_UNSIGNED_BYTE,0);
+      }
+
+   glUniform1i(YScaleUniform,2);
+   glUniform2i(TextUniform,0,0);
+   glUniform2f(PosUniform,-.5,-.9);
+   glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_BYTE,0);
+   
+   int GLERROR;
+
+   while ((GLERROR = glGetError()))
+   {
+   if (GLERROR == GL_INVALID_ENUM)
+      printf("Invalid enum error");
+   else if(GLERROR == GL_INVALID_VALUE)
+      printf("Invalid value");
+   else if (GLERROR == GL_INVALID_OPERATION)
+      printf("Invalid op");   
+   else if (GLERROR == GL_OUT_OF_MEMORY)
+      printf("Out of mem");
+   else 
+      printf("Other error");
+   }
 }
+
