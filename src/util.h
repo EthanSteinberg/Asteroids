@@ -19,6 +19,8 @@
 #ifndef UTIL_H_INCLUDED
 #define UTIL_H_INCLUDED
 
-void graphicsInit();
+GLuint makeShader(const char *filename,GLuint type);
+GLuint makeTexture(const char *filename);
+char *  makeSource(const char *path);
 
 #endif //UTIL_H_INCLUDED

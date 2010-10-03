@@ -26,7 +26,7 @@
 #include <boost/ref.hpp>
 #include <boost/array.hpp>
 
-#include "util.h"
+#include "2dadventure.h"
 
 sf::Window *App;
 
@@ -143,7 +143,7 @@ void RenderScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //draw stuff here
-    testing();
+    graphicsTest();
 
     App->Display();
 }
