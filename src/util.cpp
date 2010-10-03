@@ -1,95 +1,39 @@
+//  Copyright (C) 2010 Ethan Steinberg
+//
+//  This software is provided 'as-is', without any express or implied
+//  warranty.  In no event will the authors be held liable for any damages
+//  arising from the use of this software.
+//
+//  Permission is granted to anyone to use this software for any purpose,
+//  including commercial applications, and to alter it and redistribute it
+//  freely, subject to the following restrictions:
+//
+//  1. The origin of this software must not be misrepresented; you must not
+//     claim that you wrote the original software. If you use this software
+//     in a product, an acknowledgment in the product documentation would be
+//     appreciated but is not required.
+//  2. Altered source versions must be plainly marked as such, and must not be
+//     misrepresented as being the original software.
+//  3. This notice may not be removed or altered from any source distribution.
+
 #include <cstdio>
 #include <cstdlib>
+
 #include <GL/glew.h>
-#include "testing.h"
-#include <cassert>
 #include <Magick++.h>
 
-using namespace Magick;
+#include "util.h"
 
-int array[20][20] = {{1,1,1,1,1,1,1,1,0},{1},{1},{1},{1},{1},{1},{1},{1},{1}};
-static int PosUniform;
-static int TextUniform;
-static int YScaleUniform;
+int Program;
+int PosUniform;
+int TextUniform;
+int YScaleUniform;
 
 GLuint makeShader(const char *filename,GLuint type);
-GLuint maketexture(const char *filename);
+GLuint makeTexture(const char *filename);
+char *  makeSourc(const char *path);
 
-char * file2string(const char *path)
-{
-   FILE *fd;
-   long len, r;
-   char *str;
-   
-   if (!(fd = fopen(path,"r")))
-   {
-      printf("File open of %s failed\n",path);
-      return NULL;
-   }
-
-   fseek(fd,0,SEEK_END);
-   len = ftell(fd);
-
-   printf("File %s is %ld long\n",path,len);
-
-   fseek(fd,0,SEEK_SET);
-
-   str = (char *) malloc(len * sizeof(char));
-   if (!str)
-      printf("Malloc failed");
-
-   r = fread(str,sizeof(char),len,fd);
-
-   str[r -1] = '\0';
-
-   fclose(fd);
-   
-   return str;
-
-}
-
-GLuint Program;
-
-void testing()
-{
-   glUniform1i(YScaleUniform,1);  
-   
-   int *place = array[0];
-   for (float x = -1;x<1;x += .1)
-      for (float y = -1;y<1;y += .1)
-      {
-	 int l = 1 - *place++;
-	 glUniform2i(TextUniform,1,l);
-         glUniform2f(PosUniform,x,y);
-	 glDrawElements(GL_TRIANGLE_STRIP,4, GL_UNSIGNED_BYTE,0);
-      }
-
-   glUniform1i(YScaleUniform,2);
-   glUniform2i(TextUniform,0,0);
-   glUniform2f(PosUniform,-.5,-.9);
-   glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_BYTE,0);
-//      glUniform2i(TextUniform,0,1);
-//      glUniform2f(PosUniform,0,0);
-//      glDrawElements(GL_TRIANGLE_STRIP,PointsToDraw,GL_UNSIGNED_BYTE,0);
-   
-   int GLERROR;
-
-   while ((GLERROR = glGetError()))
-   {
-   if (GLERROR == GL_INVALID_ENUM)
-      printf("Invalid enum error");
-   else if(GLERROR == GL_INVALID_VALUE)
-      printf("Invalid value");
-   else if (GLERROR == GL_INVALID_OPERATION)
-      printf("Invalid op");   
-   else if (GLERROR == GL_OUT_OF_MEMORY)
-      printf("Out of mem");
-   else 
-      printf("Other error");
-   }
-}
-
-void testingInit()
+void graphicsInit()
 {
    GLuint frag = makeShader("frag",GL_FRAGMENT_SHADER);
    GLuint vert = makeShader("vert",GL_VERTEX_SHADER);
@@ -160,17 +104,17 @@ GLuint makeShader(const char *filename,GLuint type)
 {
    GLuint shader = glCreateShader(type);
 
-   const GLchar *lol = (GLchar *) file2string(filename);
+   const char * source = makeSource(filename);
 
-   glShaderSource(shader,1,&lol,NULL);
+   glShaderSource(shader,1,(GLchar **) &source,NULL);
    glCompileShader(shader);
    
-   free((char *) lol);
+   free(source);
 
    return shader;
 }
 
-GLuint maketexture(const char *filename)
+GLuint makeTexture(const char *filename)
 {
    Image image(filename);
    Blob blob;
@@ -189,3 +133,37 @@ GLuint maketexture(const char *filename)
 
    return texture;
 }
+
+char * makeSource(const char *path)
+{
+   FILE *fd;
+   long len, r;
+   char *str;
+   
+   if (!(fd = fopen(path,"r")))
+   {
+      printf("File open of %s failed\n",path);
+      return NULL;
+   }
+
+   fseek(fd,0,SEEK_END);
+   len = ftell(fd);
+
+   printf("File %s is %ld long\n",path,len);
+
+   fseek(fd,0,SEEK_SET);
+
+   str = (char *) malloc(len * sizeof(char));
+   if (!str)
+      printf("Malloc failed");
+
+   r = fread(str,sizeof(char),len,fd);
+
+   str[r -1] = '\0';
+
+   fclose(fd);
+   
+   return str;
+
+}
+

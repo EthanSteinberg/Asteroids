@@ -26,7 +26,7 @@
 #include <boost/ref.hpp>
 #include <boost/array.hpp>
 
-#include <testing.h>
+#include "util.h"
 
 sf::Window *App;
 
@@ -57,7 +57,7 @@ int main ()
 
 void SetupRC()
 {
-    testingInit();
+    graphicsInit();
 
     glClearColor(0.0f,1.0f,1.0f,1.0f);
 
