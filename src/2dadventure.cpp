@@ -33,10 +33,12 @@ void graphicsInit()
 {
    GLuint frag = makeShader("frag",GL_FRAGMENT_SHADER);
    GLuint vert = makeShader("vert",GL_VERTEX_SHADER);
+   GLuint geom = makeShader("geom",GL_GEOMETRY_SHADER);
 
    Program = glCreateProgram();
    glAttachShader(Program,frag);
    glAttachShader(Program,vert);
+   glAttachShader(Program,geom);
 
    GLuint vao, vbo[3];
 
@@ -92,7 +94,7 @@ void graphicsInit()
    YScaleUniform = glGetUniformLocation(Program,"YScale");
 
    char log[1000];
-   glGetShaderInfoLog(frag,1000,NULL,log);
+   glGetShaderInfoLog(geom,1000,NULL,log);
    printf("The log is comming in.\n%s",log);
 }
 
