@@ -26,6 +26,7 @@ int Program;
 int PosUniform;
 int TextUniform;
 int YScaleUniform;
+GLuint vao, vbo[3];
 
 int array[20][20] = {{1,1,1,1,1,1,1,1,0},{1},{1},{1},{1},{1},{1},{1},{1},{1}};
 
@@ -35,87 +36,109 @@ void graphicsInit()
    GLuint vert = makeShader("vert",GL_VERTEX_SHADER);
    GLuint geom = makeShader("geom",GL_GEOMETRY_SHADER);
 
+   const GLubyte index[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
+
    Program = glCreateProgram();
    glAttachShader(Program,frag);
    glAttachShader(Program,vert);
    glAttachShader(Program,geom);
 
-   GLuint vao, vbo[3];
-
-   const GLfloat square[5][2]= {
-	    {  0.0,   0.0 },
-	    {  0.0,   0.1 } , /* Top point */
-	    {  0.1,   0.1 } , /* Right point */
-	    {  0.1,   0.0 } , /* Bottom point */
-	    {  0.0,   0.0 }  }; /* Left point */
-
-   const GLfloat colors[5][3] = {
-	    { 0.0,  0.0, 0.0 },
-	    {  1.0,  0.0,  0.0  }, /* Red */
-	    {  0.0,  1.0,  0.0  }, /* Green */
-	    {  0.0,  0.0,  1.0  }, /* Blue */
-	    {  1.0,  1.0,  1.0  }, }; /* White */
-
-   const GLubyte index[7] = {4,3,1,2,4};
-
+   
    glGenVertexArrays(1,&vao);
    glBindVertexArray(vao);
 
    glGenBuffers(3,vbo);
 
    glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-   glBufferData(GL_ARRAY_BUFFER,10 * sizeof(GLfloat),square,GL_STATIC_DRAW);
+   glBufferData(GL_ARRAY_BUFFER,20 * 2 * sizeof(GLfloat),NULL,GL_STREAM_DRAW);
    glVertexAttribPointer((GLuint) 0,2,GL_FLOAT,GL_FALSE,0,0);
    glEnableVertexAttribArray(0);
 
    glBindBuffer(GL_ARRAY_BUFFER,vbo[1]);
-   glBufferData(GL_ARRAY_BUFFER,15 * sizeof(GLfloat),colors,GL_STATIC_DRAW);
-   glVertexAttribPointer((GLuint) 1,3,GL_FLOAT,GL_FALSE,0,0);
+   glBufferData(GL_ARRAY_BUFFER,20 * 2 * sizeof(GLfloat),NULL,GL_STREAM_DRAW);
+   glVertexAttribPointer((GLuint) 1,2,GL_FLOAT,GL_FALSE,0,0);
    glEnableVertexAttribArray(1);
 
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,vbo[2]);
-   glBufferData(GL_ELEMENT_ARRAY_BUFFER,7 * sizeof(GLbyte),index,GL_STATIC_DRAW);
+   glBufferData(GL_ELEMENT_ARRAY_BUFFER,20 * sizeof(GLbyte),index,GL_STATIC_DRAW);
 
    glBindAttribLocation(Program, 0, "in_Position");
-   glBindAttribLocation(Program, 1, "in_Color");
+   glBindAttribLocation(Program, 1, "in_Textcord");
 
    glLinkProgram(Program);
    glUseProgram(Program);
 
    int text0 = makeTexture("res/atlas.svg");
-   PosUniform = glGetUniformLocation(Program,"MyTexture");
+   PosUniform = glGetUniformLocation(Program,"Texture");
 
    glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D,text0);
    glUniform1i(PosUniform,0);
    
-   PosUniform = glGetUniformLocation(Program,"bottomLeft");
-   TextUniform = glGetUniformLocation(Program,"text");
-   YScaleUniform = glGetUniformLocation(Program,"YScale");
-
    char log[1000];
-   glGetShaderInfoLog(geom,1000,NULL,log);
+   glGetProgramInfoLog(Program,1000,NULL,log);
    printf("The log is comming in.\n%s",log);
 }
 
 void graphicsTest()
 {
-   glUniform1i(YScaleUniform,1);  
-   
+   float TextPos[20][2];
+   float LolPos[20][2];
+
+   int i = 0;
    int *place = array[0];
    for (float x = -1;x<1;x += .1)
+   {
+      i = 0;
       for (float y = -1;y<1;y += .1)
       {
-	 int l = 1 - *place++;
-	 glUniform2i(TextUniform,1,l);
-         glUniform2f(PosUniform,x,y);
-	 glDrawElements(GL_TRIANGLE_STRIP,4, GL_UNSIGNED_BYTE,0);
+	 TextPos[i][0] = x;
+	 TextPos[i][1] = y;
+	 int l = *place++;
+	 LolPos[i][0] = 1;
+	 LolPos[i][1] = l;
+	 i++;
       }
+   
+      glDisableVertexAttribArray(0);
+      glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+      glBufferSubData(GL_ARRAY_BUFFER,0,20 * 2 * sizeof(float),TextPos);
+      glVertexAttribPointer((GLuint) 0,2,GL_FLOAT,GL_FALSE,0,0);
+      glEnableVertexAttribArray(0);
+  
+      glDisableVertexAttribArray(1);
+      glBindBuffer(GL_ARRAY_BUFFER,vbo[1]);
+      glBufferSubData(GL_ARRAY_BUFFER,0,20 *2 * sizeof(float),LolPos);
+      glVertexAttribPointer((GLuint) 1,2,GL_FLOAT,GL_FALSE,0,0);
+      glEnableVertexAttribArray(1);
 
-   glUniform1i(YScaleUniform,2);
-   glUniform2i(TextUniform,0,0);
-   glUniform2f(PosUniform,-.5,-.9);
-   glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_BYTE,0);
+      glDrawElements(GL_POINTS,20,GL_UNSIGNED_BYTE,0);
+   }
+   
+   TextPos[0][0] = -.5;
+   TextPos[0][1] = -.9;
+
+   TextPos[0][0] = 0;
+   TextPos[0][1] = 0;
+
+   glDisableVertexAttribArray(0);
+   glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+   glBufferSubData(GL_ARRAY_BUFFER,0,2 * sizeof(float),TextPos);
+   glVertexAttribPointer((GLuint) 0,2,GL_FLOAT,GL_FALSE,0,0);
+   glEnableVertexAttribArray(0);
+  
+   glDisableVertexAttribArray(1);
+   glBindBuffer(GL_ARRAY_BUFFER,vbo[1]);
+   glBufferSubData(GL_ARRAY_BUFFER,0,2 * sizeof(float),LolPos);
+   glVertexAttribPointer((GLuint) 1,2,GL_FLOAT,GL_FALSE,0,0);
+   glEnableVertexAttribArray(1);
+
+   glDrawElements(GL_POINTS,1,GL_UNSIGNED_BYTE,0);
+
+   //glUniform1i(YScaleUniform,2);
+   //glUniform2i(TextUniform,0,0);
+   //glUniform2f(PosUniform,-.5,-.9);
+   //glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_BYTE,0);
    
    int GLERROR;
 
