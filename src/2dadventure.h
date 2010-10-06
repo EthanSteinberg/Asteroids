@@ -19,6 +19,31 @@
 #ifndef ADVENTURE_H_INCLUDED
 #define ADVENTURE_H_INCLUDED
 
+#include <boost/tuple/tuple.hpp>
+
+typedef boost::tuple<float,float> vec2;
+
+class t_player;
+{
+public:
+   t_player(float x,float y);
+
+   void draw() const;
+
+   bool movel();
+   bool mover();
+   bool moveu();
+   bool moved();
+
+private:
+   vec2 pos;   
+}
+
+class t_background;
+{
+public:
+   t_background(const char *filename);
+
 void graphicsInit();
 void graphicsTest();
 
