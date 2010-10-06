@@ -4,16 +4,23 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
-BLOCKS_H_INCLUDED	src/blocks.h	2;"	d
-CMAKE_BINARY_DIR	src/Makefile	/^CMAKE_BINARY_DIR = \/home\/ethan\/Programming\/FallingBlocks$/;"	m
+ADVENTURE_H_INCLUDED	src/2dadventure.h	20;"	d
+App	src/main.cpp	/^sf::Window *App;$/;"	v
+CMAKE_BINARY_DIR	src/Makefile	/^CMAKE_BINARY_DIR = \/home\/ethan\/Programming\/2DAdventure$/;"	m
 CMAKE_COMMAND	src/Makefile	/^CMAKE_COMMAND = \/usr\/bin\/cmake$/;"	m
 CMAKE_EDIT_COMMAND	src/Makefile	/^CMAKE_EDIT_COMMAND = \/usr\/bin\/ccmake$/;"	m
-CMAKE_SOURCE_DIR	src/Makefile	/^CMAKE_SOURCE_DIR = \/home\/ethan\/Programming\/FallingBlocks$/;"	m
+CMAKE_SOURCE_DIR	src/Makefile	/^CMAKE_SOURCE_DIR = \/home\/ethan\/Programming\/2DAdventure$/;"	m
+Display	src/main.cpp	/^    App->Display();$/;"	p	file:	signature:()
+Event	src/main.cpp	/^        sf::Event Event;$/;"	l
+GLERROR	src/2dadventure.cpp	/^   int GLERROR;$/;"	l
+LolPos	src/2dadventure.cpp	/^   GLfloat LolPos[20][2];$/;"	l
 MainLoop	src/main.cpp	/^void MainLoop()$/;"	f	signature:()
 MainLoop	src/main.cpp	/^void MainLoop();$/;"	p	file:	signature:()
 MoveEvents	src/main.cpp	/^void MoveEvents()$/;"	f	signature:()
 MoveEvents	src/main.cpp	/^void MoveEvents();$/;"	p	file:	signature:()
+PosArray	src/2dadventure.cpp	/^   GLfloat PosArray[1][2];$/;"	l
 PressedKeys	src/main.cpp	/^boost::array<int,32> PressedKeys;$/;"	v
+Program	src/2dadventure.cpp	/^int Program;$/;"	v
 RM	src/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
 ReSize	src/main.cpp	/^void ReSize (int w, int h)$/;"	f	signature:(int w, int h)
 ReSize	src/main.cpp	/^void ReSize (int w, int h);$/;"	p	file:	signature:(int w, int h)
@@ -21,87 +28,97 @@ RenderScene	src/main.cpp	/^void RenderScene()$/;"	f	signature:()
 RenderScene	src/main.cpp	/^void RenderScene();$/;"	p	file:	signature:()
 SHELL	src/Makefile	/^SHELL = \/bin\/sh$/;"	m
 SUFFIXES	src/Makefile	/^SUFFIXES =$/;"	m
+ScaleUniform	src/2dadventure.cpp	/^int ScaleUniform;$/;"	v
 SetupRC	src/main.cpp	/^void SetupRC()$/;"	f	signature:()
 SetupRC	src/main.cpp	/^void SetupRC();$/;"	p	file:	signature:()
 StartMoveEvents	src/main.cpp	/^void StartMoveEvents()$/;"	f	signature:()
 StartMoveEvents	src/main.cpp	/^void StartMoveEvents();$/;"	p	file:	signature:()
-arrblock	src/blocks.h	/^   arrblok arrblock;$/;"	m	class:bord	access:private
-arrblok	src/blocks.h	/^class arrblok$/;"	c
-arrblok::checkrow	src/blocks.h	/^   bool checkrow(int y);$/;"	p	class:arrblok	access:public	signature:(int y)
-arrblok::checksquare	src/blocks.h	/^   bool checksquare(int x,int y);$/;"	p	class:arrblok	access:public	signature:(int x,int y)
-arrblok::clearrow	src/blocks.h	/^   void clearrow(int y);$/;"	p	class:arrblok	access:public	signature:(int y)
-arrblok::drawall	src/blocks.h	/^   void drawall();$/;"	p	class:arrblok	access:public	signature:()
-arrblok::rowblock	src/blocks.h	/^   rowblok rowblock[ROWS];$/;"	m	class:arrblok	access:private
-att	src/main.cpp	/^    GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };$/;"	l
-block	src/blocks.h	/^   blok block[4];$/;"	m	class:selblok	access:private
-block	src/blocks.h	/^   blok block[COLUNMS];$/;"	m	class:rowblok	access:private
-blok	src/blocks.h	/^class blok$/;"	c
-blok::color	src/blocks.h	/^   int color;$/;"	m	class:blok	access:private
-blok::draw	src/blocks.h	/^   void draw();$/;"	p	class:blok	access:public	signature:()
-blok::getcol	src/blocks.h	/^   int getcol();$/;"	p	class:blok	access:public	signature:()
-blok::getpos	src/blocks.h	/^   const cord& getpos();$/;"	p	class:blok	access:public	signature:()
-blok::pos	src/blocks.h	/^   cord pos;$/;"	m	class:blok	access:private
-blok::setcol	src/blocks.h	/^   void setcol(int col);$/;"	p	class:blok	access:public	signature:(int col)
-blok::setpos	src/blocks.h	/^   void setpos(const cord &pos);$/;"	p	class:blok	access:public	signature:(const cord &pos)
+TexArray	src/2dadventure.cpp	/^   GLfloat TexArray[1][2];$/;"	l
+TextPos	src/2dadventure.cpp	/^   GLfloat TextPos[20][2];$/;"	l
+TextUniform	src/2dadventure.cpp	/^   int TextUniform = glGetUniformLocation(Program,"Texture");$/;"	l
+UTIL_H_INCLUDED	src/util.h	20;"	d
+back	src/2dadventure.h	/^   t_background back;$/;"	v
+blob	src/util.cpp	/^   Magick::Blob blob;$/;"	l
+board	src/2dadventure.h	/^   boost::array<boost::array<int,20>,20> board;$/;"	v
 boost::this_thread::sleep	src/main.cpp	/^        boost::this_thread::sleep(time);$/;"	p	class:boost::this_thread	file:	signature:(time)
-bord	src/blocks.h	/^class bord$/;"	c
-bord::arrblock	src/blocks.h	/^   arrblok arrblock;$/;"	m	class:bord	access:private
-bord::drawall	src/blocks.h	/^   void drawall();$/;"	p	class:bord	access:public	signature:()
-bord::moveall	src/blocks.h	/^   void moveall();$/;"	p	class:bord	access:public	signature:()
-bord::selblock	src/blocks.h	/^   selblok selblock;$/;"	m	class:bord	access:private
-checkrow	src/blocks.h	/^   bool checkrow();$/;"	p	class:rowblok	access:public	signature:()
-checkrow	src/blocks.h	/^   bool checkrow(int y);$/;"	p	class:arrblok	access:public	signature:(int y)
-checksquare	src/blocks.h	/^   bool checksquare(int x);$/;"	p	class:rowblok	access:public	signature:(int x)
-checksquare	src/blocks.h	/^   bool checksquare(int x,int y);$/;"	p	class:arrblok	access:public	signature:(int x,int y)
-clearrow	src/blocks.h	/^   void clearrow();$/;"	p	class:rowblok	access:public	signature:()
-clearrow	src/blocks.h	/^   void clearrow(int y);$/;"	p	class:arrblok	access:public	signature:(int y)
-cmap	src/main.cpp	/^    Colormap cmap = XCreateColormap(dpy, root, vi->visual, AllocNone); \/\/create color map$/;"	l
-color	src/blocks.h	/^   int color;$/;"	m	class:blok	access:private
-cord	src/blocks.h	/^typename boost::tuple<float, float> cord;$/;"	v
-dpy	src/main.cpp	/^Display *dpy;$/;"	v
-draw	src/blocks.h	/^   void draw();$/;"	p	class:blok	access:public	signature:()
-drawall	src/blocks.h	/^   drawall();$/;"	p	class:selblok	access:public	signature:()
-drawall	src/blocks.h	/^   void drawall();$/;"	p	class:arrblok	access:public	signature:()
-drawall	src/blocks.h	/^   void drawall();$/;"	p	class:bord	access:public	signature:()
-drawall	src/blocks.h	/^   void drawall();$/;"	p	class:rowblok	access:public	signature:()
-getcol	src/blocks.h	/^   int getcol();$/;"	p	class:blok	access:public	signature:()
-getpos	src/blocks.h	/^   const cord& getpos();$/;"	p	class:blok	access:public	signature:()
-glc	src/main.cpp	/^GLXContext glc;$/;"	v
-gwa	src/main.cpp	/^    XWindowAttributes gwa;$/;"	l
+checksquare	src/2dadventure.cpp	/^bool t_background::checksquare(float xpos,float ypos) const$/;"	f	class:t_background	signature:(float xpos,float ypos) const
+checksquare	src/2dadventure.h	/^   bool checksquare(float xpos,float ypos) const;$/;"	p	signature:(float xpos,float ypos) const
+draw	src/2dadventure.cpp	/^   back.draw(xpos);$/;"	p	file:	signature:(xpos)
+draw	src/2dadventure.cpp	/^   play.draw(xpos);$/;"	p	file:	signature:(xpos)
+draw	src/2dadventure.cpp	/^void t_background::draw(float xpos) const$/;"	f	class:t_background	signature:(float xpos) const
+draw	src/2dadventure.cpp	/^void t_player::draw(float xpos) const$/;"	f	class:t_player	signature:(float xpos) const
+draw	src/2dadventure.h	/^   void draw(float xpos) const;$/;"	p	signature:(float xpos) const
+drawall	src/2dadventure.cpp	/^t_game::drawall() const$/;"	f	class:t_game	signature:() const
+drawall	src/2dadventure.h	/^   void drawall() const;$/;"	p	signature:() const
+fd	src/util.cpp	/^   FILE *fd;$/;"	l
+frag	src/2dadventure.cpp	/^   GLuint frag = makeShader("frag",GL_FRAGMENT_SHADER);$/;"	l
+geom	src/2dadventure.cpp	/^   GLuint geom = makeShader("geom",GL_GEOMETRY_SHADER);$/;"	l
+get	src/main.cpp	/^    std::cin.get();$/;"	p	file:	signature:()
+getx	src/2dadventure.cpp	/^float t_player::getx() const$/;"	f	class:t_player	signature:() const
+getx	src/2dadventure.h	/^   float getx() const;$/;"	p	signature:() const
+gety	src/2dadventure.cpp	/^float t_player::gety() const$/;"	f	class:t_player	signature:() const
+gety	src/2dadventure.h	/^   float gety() const;$/;"	p	signature:() const
+graphicsInit	src/2dadventure.cpp	/^void graphicsInit()$/;"	f	signature:()
+graphicsInit	src/2dadventure.h	/^void graphicsInit();$/;"	p	signature:()
+graphicsTest	src/2dadventure.cpp	/^void graphicsTest()$/;"	f	signature:()
+graphicsTest	src/2dadventure.h	/^void graphicsTest();$/;"	p	signature:()
+i	src/2dadventure.cpp	/^   int i ;$/;"	l
+image	src/util.cpp	/^   Magick::Image image(filename);$/;"	p	file:	signature:(filename)
+index	src/2dadventure.cpp	/^   const GLubyte index[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};$/;"	l
+l	src/2dadventure.cpp	/^	 int l = *place++;$/;"	l
+len	src/util.cpp	/^   long len, r;$/;"	l
+log	src/2dadventure.cpp	/^   char log[1000];$/;"	l
 main	src/main.cpp	/^int main ()$/;"	f	signature:()
-moveall	src/blocks.h	/^   void moveall();$/;"	p	class:bord	access:public	signature:()
-moved	src/blocks.h	/^   moved();$/;"	p	class:selblok	access:public	signature:()
+makeShader	src/util.cpp	/^GLuint makeShader(const char *filename,GLuint type)$/;"	f	signature:(const char *filename,GLuint type)
+makeShader	src/util.h	/^GLuint makeShader(const char *filename,GLuint type);$/;"	p	signature:(const char *filename,GLuint type)
+makeSource	src/util.cpp	/^char * makeSource(const char *path)$/;"	f	signature:(const char *path)
+makeSource	src/util.h	/^char *  makeSource(const char *path);$/;"	p	signature:(const char *path)
+makeTexture	src/util.cpp	/^GLuint makeTexture(const char *filename)$/;"	f	signature:(const char *filename)
+makeTexture	src/util.h	/^GLuint makeTexture(const char *filename);$/;"	p	signature:(const char *filename)
+moveall	src/2dadventure.cpp	/^t_game::moveall()$/;"	f	class:t_game	signature:()
+moveall	src/2dadventure.h	/^   void moveall() const;$/;"	p	signature:() const
+moved	src/2dadventure.cpp	/^bool t_player::moved(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+moved	src/2dadventure.h	/^   bool moved(const t_background &back);$/;"	p	signature:(const t_background &back)
 moveevents	src/main.cpp	/^    boost::thread moveevents(MoveEvents);$/;"	p	file:	signature:(MoveEvents)
-movel	src/blocks.h	/^   movel();$/;"	p	class:selblok	access:public	signature:()
-mover	src/blocks.h	/^   mover();$/;"	p	class:selblok	access:public	signature:()
-pos	src/blocks.h	/^   cord pos;$/;"	m	class:blok	access:private
-root	src/main.cpp	/^    Window root = DefaultRootWindow(dpy); \/\/Get window of OS$/;"	l
-rotatel	src/blocks.h	/^   rotatel();$/;"	p	class:selblok	access:public	signature:()
-rotater	src/blocks.h	/^   rotater();$/;"	p	class:selblok	access:public	signature:()
-rowblock	src/blocks.h	/^   rowblok rowblock[ROWS];$/;"	m	class:arrblok	access:private
-rowblok	src/blocks.h	/^class rowblok$/;"	c
-rowblok::block	src/blocks.h	/^   blok block[COLUNMS];$/;"	m	class:rowblok	access:private
-rowblok::checkrow	src/blocks.h	/^   bool checkrow();$/;"	p	class:rowblok	access:public	signature:()
-rowblok::checksquare	src/blocks.h	/^   bool checksquare(int x);$/;"	p	class:rowblok	access:public	signature:(int x)
-rowblok::clearrow	src/blocks.h	/^   void clearrow();$/;"	p	class:rowblok	access:public	signature:()
-rowblok::drawall	src/blocks.h	/^   void drawall();$/;"	p	class:rowblok	access:public	signature:()
-selblock	src/blocks.h	/^   selblok selblock;$/;"	m	class:bord	access:private
-selblok	src/blocks.h	/^class selblok$/;"	c
-selblok::block	src/blocks.h	/^   blok block[4];$/;"	m	class:selblok	access:private
-selblok::drawall	src/blocks.h	/^   drawall();$/;"	p	class:selblok	access:public	signature:()
-selblok::moved	src/blocks.h	/^   moved();$/;"	p	class:selblok	access:public	signature:()
-selblok::movel	src/blocks.h	/^   movel();$/;"	p	class:selblok	access:public	signature:()
-selblok::mover	src/blocks.h	/^   mover();$/;"	p	class:selblok	access:public	signature:()
-selblok::rotatel	src/blocks.h	/^   rotatel();$/;"	p	class:selblok	access:public	signature:()
-selblok::rotater	src/blocks.h	/^   rotater();$/;"	p	class:selblok	access:public	signature:()
-setcol	src/blocks.h	/^   void setcol(int col);$/;"	p	class:blok	access:public	signature:(int col)
-setpos	src/blocks.h	/^   void setpos(const cord &pos);$/;"	p	class:blok	access:public	signature:(const cord &pos)
+movel	src/2dadventure.cpp	/^bool t_player::movel(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+movel	src/2dadventure.h	/^   bool movel(const t_background &back);$/;"	p	signature:(const t_background &back)
+mover	src/2dadventure.cpp	/^bool t_player::mover(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+mover	src/2dadventure.h	/^   bool mover(const t_background &back);$/;"	p	signature:(const t_background &back)
+moveu	src/2dadventure.cpp	/^bool t_player::moveu(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+moveu	src/2dadventure.h	/^   bool moveu(const t_background &back);$/;"	p	signature:(const t_background &back)
+place	src/2dadventure.cpp	/^   int *place = array[0];$/;"	l
+place	src/2dadventure.cpp	/^   int *place = board[(int) xpos];$/;"	l
+play	src/2dadventure.h	/^   t_player play;$/;"	v
+pos	src/2dadventure.h	/^   vec2 pos;   $/;"	v
+r	src/util.cpp	/^   long len, r;$/;"	l
+shader	src/util.cpp	/^   GLuint shader = glCreateShader(type);$/;"	l
 sleep	src/main.cpp	/^        boost::this_thread::sleep(time);$/;"	p	class:boost::this_thread	file:	signature:(time)
-swa	src/main.cpp	/^    XSetWindowAttributes swa;$/;"	l
+source	src/util.cpp	/^   char * source = makeSource(filename);$/;"	l
+str	src/util.cpp	/^   char *str;$/;"	l
+t_background	src/2dadventure.cpp	/^t_background::t_background()$/;"	f	class:t_background	signature:()
+t_background::checksquare	src/2dadventure.cpp	/^bool t_background::checksquare(float xpos,float ypos) const$/;"	f	class:t_background	signature:(float xpos,float ypos) const
+t_background::draw	src/2dadventure.cpp	/^void t_background::draw(float xpos) const$/;"	f	class:t_background	signature:(float xpos) const
+t_background::t_background	src/2dadventure.cpp	/^t_background::t_background()$/;"	f	class:t_background	signature:()
+t_game	src/2dadventure.cpp	/^t_game::t_game() : play(5,3)$/;"	f	class:t_game	signature:()
+t_game::drawall	src/2dadventure.cpp	/^t_game::drawall() const$/;"	f	class:t_game	signature:() const
+t_game::moveall	src/2dadventure.cpp	/^t_game::moveall()$/;"	f	class:t_game	signature:()
+t_game::t_game	src/2dadventure.cpp	/^t_game::t_game() : play(5,3)$/;"	f	class:t_game	signature:()
+t_player	src/2dadventure.cpp	/^t_player::t_player(float x,float y)$/;"	f	class:t_player	signature:(float x,float y)
+t_player::draw	src/2dadventure.cpp	/^void t_player::draw(float xpos) const$/;"	f	class:t_player	signature:(float xpos) const
+t_player::getx	src/2dadventure.cpp	/^float t_player::getx() const$/;"	f	class:t_player	signature:() const
+t_player::gety	src/2dadventure.cpp	/^float t_player::gety() const$/;"	f	class:t_player	signature:() const
+t_player::moved	src/2dadventure.cpp	/^bool t_player::moved(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+t_player::movel	src/2dadventure.cpp	/^bool t_player::movel(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+t_player::mover	src/2dadventure.cpp	/^bool t_player::mover(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+t_player::moveu	src/2dadventure.cpp	/^bool t_player::moveu(const t_background &back)$/;"	f	class:t_player	signature:(const t_background &back)
+t_player::t_player	src/2dadventure.cpp	/^t_player::t_player(float x,float y)$/;"	f	class:t_player	signature:(float x,float y)
+text0	src/2dadventure.cpp	/^   int text0 = makeTexture("res\/atlas.svg");$/;"	l
+texture	src/util.cpp	/^   GLuint texture;$/;"	l
 time	src/main.cpp	/^    boost::system_time time = boost::get_system_time();$/;"	l
 time	src/main.cpp	/^    boost::system_time time;$/;"	l
-vi	src/main.cpp	/^    XVisualInfo *vi = glXChooseVisual(dpy, 0, att); \/\/get closest visual to what we want$/;"	l
-win	src/main.cpp	/^Window win;$/;"	v
-xev	src/main.cpp	/^    XEvent xev;$/;"	l
-xlibInit	src/main.cpp	/^void xlibInit()$/;"	f	signature:()
+vao	src/2dadventure.cpp	/^GLuint vao, vbo[3];$/;"	v
+vbo	src/2dadventure.cpp	/^GLuint vao, vbo[3];$/;"	v
+vec2	src/2dadventure.h	/^typedef boost::tuple<float,float> vec2;$/;"	t
+vert	src/2dadventure.cpp	/^   GLuint vert = makeShader("vert",GL_VERTEX_SHADER);$/;"	l
 xlibInit	src/main.cpp	/^void xlibInit();$/;"	p	file:	signature:()
+xpos	src/2dadventure.h	/^   float xpos;$/;"	v

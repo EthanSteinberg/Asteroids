@@ -32,6 +32,8 @@ sf::Window *App;
 
 boost::array<int,32> PressedKeys;
 
+t_game *game;
+
 void ReSize (int w, int h);
 void SetupRC();
 void xlibInit();
@@ -57,7 +59,7 @@ int main ()
 
 void SetupRC()
 {
-    graphicsInit();
+    game = new t_game;
 
     glClearColor(0.0f,1.0f,1.0f,1.0f);
 
@@ -143,7 +145,7 @@ void RenderScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //draw stuff here
-    graphicsTest();
+    game->drawall();
 
     App->Display();
 }

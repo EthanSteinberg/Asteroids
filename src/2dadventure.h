@@ -19,30 +19,58 @@
 #ifndef ADVENTURE_H_INCLUDED
 #define ADVENTURE_H_INCLUDED
 
+#include <boost/array.hpp>
 #include <boost/tuple/tuple.hpp>
 
 typedef boost::tuple<float,float> vec2;
 
-class t_player;
+class t_background
+{
+public:
+   t_background();
+
+   void draw(float xpos) const;
+
+   bool checksquare(float xpos,float ypos) const;
+
+private:
+   //boost::array<boost::array<int,20>,20> board;
+   int board[20][20];
+};
+
+class t_player
 {
 public:
    t_player(float x,float y);
 
-   void draw() const;
+   void draw(float xpos) const;
 
-   bool movel();
-   bool mover();
-   bool moveu();
-   bool moved();
+   float getx() const;
+   float gety() const;
+
+   bool movel(const t_background &back);
+   bool mover(const t_background &back);
+   bool moveu(const t_background &back);
+   bool moved(const t_background &back);
 
 private:
    vec2 pos;   
-}
+};
 
-class t_background;
+class t_game
 {
 public:
-   t_background(const char *filename);
+   t_game();
+
+   void drawall() const;
+
+   void moveall();
+
+private:
+   t_player play;
+   t_background back;
+   float xpos;
+};
 
 void graphicsInit();
 void graphicsTest();
