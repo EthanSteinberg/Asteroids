@@ -24,6 +24,8 @@
 #include "util.h"
 #include "2dadventure.h"
 
+extern boost::array<int,32> PressedKeys;
+
 int Program;
 int ScaleUniform;
 GLuint vao, vbo[3];
@@ -73,24 +75,40 @@ float t_player::gety() const
    return pos.get<1>();
 }
 
-bool t_player::movel(const t_background &/*back*/)
+bool t_player::movel(const t_background &back)
 {
-   return false;
+   if (!back.checksquare(pos.get<0>()  - 1,pos.get<1>() - .5))
+      return false;
+   else 
+      pos.get<0>() -= .05;
+   return true;
 }   
 
-bool t_player::mover(const t_background &/*back*/)
+bool t_player::mover(const t_background &back)
 {
-   return false;
+   if (!back.checksquare(pos.get<0>(),pos.get<1>() - .5))
+      return false;
+   else 
+      pos.get<0>() += .05;
+   return true;
 }
 
-bool t_player::moveu(const t_background &/*back*/)
+bool t_player::moveu(const t_background &back)
 {
-   return false;
+   if (!back.checksquare(pos.get<0>() - .5,pos.get<1>()))
+      return false;
+   else 
+      pos.get<1>() += .05;
+   return true;
 }
 
-bool t_player::moved(const t_background &/*back*/)
+bool t_player::moved(const t_background &back)
 {
-   return false;
+   if (!back.checksquare(pos.get<0>() - .5,pos.get<1>() -1))
+      return false;
+   else 
+      pos.get<1>() -= .05;
+   return true;
 }
 
 //Title: t_background class
@@ -99,7 +117,7 @@ bool t_player::moved(const t_background &/*back*/)
 
 t_background::t_background() 
 {
-   board = {{1,1,1,1,1,1,1,1,0},{1},{1},{1},{1},{1},{1},{1},{1},{1}};
+   board = {{1,1,1,1,1,1,1,1},{1},{1},{1},{1},{1},{1},{1,1},{1},{1}};
 }
 
 void t_background::draw(float xpos) const
@@ -142,7 +160,7 @@ void t_background::draw(float xpos) const
 
 bool t_background::checksquare(float xpos,float ypos) const
 {
-   return board[(int) xpos][(int) ypos] == 1;
+   return board[(int) xpos + 10][(int) ypos + 10] == 0;
 }
 
 //Title: t_game class
@@ -209,6 +227,19 @@ void t_game::drawall() const
 
 void t_game::moveall()
 {
+   static int jumping;
+   static int secs = 11;
+
+   if (PressedKeys[1] && jumping == 0)
+       jumping = 1,secs = 0;
+   if (PressedKeys[2])
+      play.mover(back);
+   if (PressedKeys[3])
+      play.movel(back);
+   if (secs<11)
+      play.moveu(back),secs++;
+   else
+      jumping = 0,play.moved(back);
 }
 
 

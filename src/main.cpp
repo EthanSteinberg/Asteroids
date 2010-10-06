@@ -167,7 +167,8 @@ void MoveEvents()
 
         //call other functions here
         //see if keys are pressed by checking the KeyPressed array
-
+        game->moveall();
+	 
         boost::this_thread::sleep(time);
     }
 }
