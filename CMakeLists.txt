@@ -23,7 +23,7 @@ set_target_properties(GLEW PROPERTIES IMPORTED_LOCATION /usr/lib64/libGLEW.so)
 find_package(OpenGL)
 include_directories(${OPENGL_INCLUDE_DIR})
 
-find_package(Boost 1.36.0 COMPONENTS thread)
+find_package(Boost 1.36.0 COMPONENTS thread date_time)
 include_directories(${BOOST_INCLUDE_DIR})
 
 find_package(ImageMagick COMPONENTS Magick++)

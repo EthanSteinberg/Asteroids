@@ -48,10 +48,10 @@ public:
    float getx() const;
    float gety() const;
 
-   bool movel(const t_background &back);
-   bool mover(const t_background &back);
-   bool moveu(const t_background &back);
-   bool moved(const t_background &back);
+   bool movel(const t_background &back,const boost::posix_time::time_duration &time);
+   bool mover(const t_background &back,const boost::posix_time::time_duration &time);
+   bool moveu(const t_background &back,const boost::posix_time::time_duration &time);
+   bool moved(const t_background &back,const boost::posix_time::time_duration &time);
 
 private:
    vec2 pos;   

@@ -20,6 +20,7 @@
 #include <cstdio>
 #include <cmath>
 #include <boost/tuple/tuple.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "util.h"
 #include "2dadventure.h"
@@ -75,39 +76,39 @@ float t_player::gety() const
    return pos.get<1>();
 }
 
-bool t_player::movel(const t_background &back)
+bool t_player::movel(const t_background &back,const boost::posix_time::time_duration &time)
 {
    if (!back.checksquare(pos.get<0>()  - 1,pos.get<1>() - .5))
       return false;
    else 
-      pos.get<0>() -= .05;
+      pos.get<0>() -= time.total_microseconds()/ 1000000.0;
    return true;
 }   
 
-bool t_player::mover(const t_background &back)
+bool t_player::mover(const t_background &back,const boost::posix_time::time_duration &time)
 {
    if (!back.checksquare(pos.get<0>(),pos.get<1>() - .5))
       return false;
    else 
-      pos.get<0>() += .05;
+      pos.get<0>() += time.total_microseconds()/ 1000000.0;
    return true;
 }
 
-bool t_player::moveu(const t_background &back)
+bool t_player::moveu(const t_background &back,const boost::posix_time::time_duration &time)
 {
    if (!back.checksquare(pos.get<0>() - .5,pos.get<1>()))
       return false;
    else 
-      pos.get<1>() += .05;
+      pos.get<1>() += time.total_microseconds()/ 1000000.0;
    return true;
 }
 
-bool t_player::moved(const t_background &back)
+bool t_player::moved(const t_background &back,const boost::posix_time::time_duration &time)
 {
    if (!back.checksquare(pos.get<0>() - .5,pos.get<1>() -1))
       return false;
    else 
-      pos.get<1>() -= .05;
+      pos.get<1>() -= time.total_microseconds()/ 1000000.0;
    return true;
 }
 
@@ -117,7 +118,7 @@ bool t_player::moved(const t_background &back)
 
 t_background::t_background() 
 {
-   board = {{1,1,1,1,1,1,1,1},{1},{1},{1},{1},{1},{1},{1,1},{1},{1}};
+   board = {{1,1,1,1,1,1,1,1},{1},{1},{1},{1},{1},{1},{1,1},{1},{1},{1},{1},{1},{1},{1}};
 }
 
 void t_background::draw(float xpos) const
@@ -229,17 +230,22 @@ void t_game::moveall()
 {
    static int jumping;
    static int secs = 11;
+   static boost::posix_time::ptime time(boost::posix_time::microsec_clock::universal_time());
+   static boost::posix_time::ptime inAir(boost::posix_time::microsec_clock::universal_time());
 
    if (PressedKeys[1] && jumping == 0)
-       jumping = 1,secs = 0;
+       jumping = 1,inAir = boost::posix_time::microsec_clock::universal_time() + boost::posix_time::seconds(2);
    if (PressedKeys[2])
-      play.mover(back);
+      play.mover(back,boost::posix_time::microsec_clock::universal_time() - time);
    if (PressedKeys[3])
-      play.movel(back);
-   if (secs<11)
-      play.moveu(back),secs++;
+      play.movel(back,boost::posix_time::microsec_clock::universal_time() - time);
+   if (time < inAir)
+      play.moveu(back,boost::posix_time::microsec_clock::universal_time() - time);
    else
-      jumping = 0,play.moved(back);
+   {
+      jumping = play.moved(back,boost::posix_time::microsec_clock::universal_time() - time);
+   }
+   time = boost::posix_time::microsec_clock::universal_time();
 }
 
 
