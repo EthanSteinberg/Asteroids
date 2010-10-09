@@ -112,6 +112,9 @@ void jsonfill(const char *filename,int *array)
    fin.read ((char *) buffer,length);
    fin.close();
 
-   yajl_handle lolv = yajl_alloc(&call,&conf,NULL,&array);
-   yajl_parse(lolv,buffer,length);
+   yajl_handle handl = yajl_alloc(&call,&conf,NULL,&array);
+   yajl_parse(handl,buffer,length);
+   yajl_free(handl);
+
+   free(buffer);
 }
