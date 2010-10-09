@@ -22,6 +22,8 @@
 #include <boost/array.hpp>
 #include <boost/tuple/tuple.hpp>
 
+const float MOVEX = 20;
+const float MOVEY = 30;
 typedef boost::tuple<float,float> vec2;
 
 class t_background

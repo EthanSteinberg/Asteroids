@@ -78,37 +78,37 @@ float t_player::gety() const
 
 bool t_player::movel(const t_background &back,const boost::posix_time::time_duration &time)
 {
-   if (!back.checksquare(pos.get<0>()  - 1,pos.get<1>() - .5))
+   if (!back.checksquare(pos.get<0>(),pos.get<1>() + .5))
       return false;
    else 
-      pos.get<0>() -= time.total_microseconds()/ 1000000.0;
+      pos.get<0>() -= time.total_microseconds()/ (10000000.0 / MOVEX);
    return true;
 }   
 
 bool t_player::mover(const t_background &back,const boost::posix_time::time_duration &time)
 {
-   if (!back.checksquare(pos.get<0>(),pos.get<1>() - .5))
+   if (!back.checksquare(pos.get<0>() + 1,pos.get<1>() + .5))
       return false;
    else 
-      pos.get<0>() += time.total_microseconds()/ 1000000.0;
+      pos.get<0>() += time.total_microseconds()/ (10000000.0 / MOVEX);
    return true;
 }
 
 bool t_player::moveu(const t_background &back,const boost::posix_time::time_duration &time)
 {
-   if (!back.checksquare(pos.get<0>() - .5,pos.get<1>()))
+   if (!back.checksquare(pos.get<0>() + .5,pos.get<1>() + 1))
       return false;
    else 
-      pos.get<1>() += time.total_microseconds()/ 1000000.0;
+      pos.get<1>() += time.total_microseconds()/ (10000000.0 / MOVEY);
    return true;
 }
 
 bool t_player::moved(const t_background &back,const boost::posix_time::time_duration &time)
 {
-   if (!back.checksquare(pos.get<0>() - .5,pos.get<1>() -1))
+   if (!back.checksquare(pos.get<0>() + .5,pos.get<1>()))
       return false;
    else 
-      pos.get<1>() -= time.total_microseconds()/ 1000000.0;
+      pos.get<1>() -= time.total_microseconds()/ (10000000.0 / MOVEY);
    return true;
 }
 
@@ -118,7 +118,7 @@ bool t_player::moved(const t_background &back,const boost::posix_time::time_dura
 
 t_background::t_background() 
 {
-   board = {{1,1,1,1,1,1,1,1},{1},{1},{1},{1},{1},{1},{1,1},{1},{1},{1},{1},{1},{1},{1}};
+   board = {{1,1,1,1,1,1,1,1},{1},{1},{1},{1},{1},{1},{1},{1},{1},{1,1},{1},{1,1},{1},{1},{1},{1},{1},{1},{1,1}};
 }
 
 void t_background::draw(float xpos) const
@@ -161,7 +161,7 @@ void t_background::draw(float xpos) const
 
 bool t_background::checksquare(float xpos,float ypos) const
 {
-   return board[(int) xpos + 10][(int) ypos + 10] == 0;
+   return board[(int) (xpos + 10)][(int) (ypos + 10)] == 0;
 }
 
 //Title: t_game class
@@ -229,12 +229,11 @@ void t_game::drawall() const
 void t_game::moveall()
 {
    static int jumping;
-   static int secs = 11;
    static boost::posix_time::ptime time(boost::posix_time::microsec_clock::universal_time());
    static boost::posix_time::ptime inAir(boost::posix_time::microsec_clock::universal_time());
 
    if (PressedKeys[1] && jumping == 0)
-       jumping = 1,inAir = boost::posix_time::microsec_clock::universal_time() + boost::posix_time::seconds(2);
+       jumping = 1,inAir = boost::posix_time::microsec_clock::universal_time() + boost::posix_time::milliseconds(400);
    if (PressedKeys[2])
       play.mover(back,boost::posix_time::microsec_clock::universal_time() - time);
    if (PressedKeys[3])
