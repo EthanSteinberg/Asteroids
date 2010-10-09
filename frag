@@ -1,15 +1,14 @@
 #version 150
 
-in  vec2 textcord;
-in  vec3 ex_Color;
+in  vec2 out_Textcord;
 
 out vec4 Color;
 
-uniform sampler2D MyTexture;
+uniform sampler2D Texture;
 
 void main(void) 
 {
-    Color = texture(MyTexture,textcord);
+    Color = texture(Texture,out_Textcord);
     if (Color.a < 1)
       discard;
 }

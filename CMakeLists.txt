@@ -9,6 +9,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/bin)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -Wshadow")
 set(CMAKE_BUILD_TYPE Debug)
 
+add_library(YAJL SHARED IMPORTED)
+set_target_properties(YAJL PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/lib/yajl-1.0.11/lib/libyajl.so)
+
+include_directories(${CMAKE_SOURCE_DIR}/lib/yajl-1.0.11/include)
+
 add_library(SFML_SYSTEM SHARED IMPORTED)
 set_target_properties(SFML_SYSTEM PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/lib/SFML-1.6/lib/libsfml-system.so.1.6)
 
@@ -23,7 +28,7 @@ set_target_properties(GLEW PROPERTIES IMPORTED_LOCATION /usr/lib64/libGLEW.so)
 find_package(OpenGL)
 include_directories(${OPENGL_INCLUDE_DIR})
 
-find_package(Boost 1.36.0 COMPONENTS thread)
+find_package(Boost 1.36.0 COMPONENTS thread date_time)
 include_directories(${BOOST_INCLUDE_DIR})
 
 find_package(ImageMagick COMPONENTS Magick++)

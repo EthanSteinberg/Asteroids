@@ -19,6 +19,85 @@
 #ifndef ADVENTURE_H_INCLUDED
 #define ADVENTURE_H_INCLUDED
 
+#include <boost/array.hpp>
+#include <boost/tuple/tuple.hpp>
+
+const float MOVEX = 20;
+const float MOVEY = 30;
+const float ALLOWENCE = .45;
+const float JUMPSECS = 400;
+typedef boost::tuple<float,float> vec2;
+
+class t_background
+{
+public:
+   t_background();
+
+   void draw(float xpos) const;
+
+   bool checksquare(float xpos,float ypos) const;
+
+private:
+   //boost::array<boost::array<int,20>,20> board;
+   int board[20][20];
+};
+
+class t_enemy
+{
+public:
+   t_enemy(float x,float y);
+
+   void draw(float xpos) const;
+
+   float getx() const;
+   float gety() const;
+
+   void move(const t_background &back,const boost::posix_time::time_duration &time);
+
+   bool movel(const t_background &back,const boost::posix_time::time_duration &time);
+   bool mover(const t_background &back,const boost::posix_time::time_duration &time);
+   bool moveu(const t_background &back,const boost::posix_time::time_duration &time);
+   bool moved(const t_background &back,const boost::posix_time::time_duration &time);
+
+private:
+   vec2 pos;   
+};
+
+class t_player
+{
+public:
+   t_player(float x,float y);
+
+   void draw(float xpos) const;
+
+   float getx() const;
+   float gety() const;
+
+   bool movel(const t_background &back,const boost::posix_time::time_duration &time);
+   bool mover(const t_background &back,const boost::posix_time::time_duration &time);
+   bool moveu(const t_background &back,const boost::posix_time::time_duration &time);
+   bool moved(const t_background &back,const boost::posix_time::time_duration &time);
+
+private:
+   vec2 pos;   
+};
+
+class t_game
+{
+public:
+   t_game();
+
+   void drawall() const;
+
+   void moveall();
+
+private:
+   t_enemy *enem;
+   t_player play;
+   t_background back;
+   float xpos;
+};
+
 void graphicsInit();
 void graphicsTest();
 

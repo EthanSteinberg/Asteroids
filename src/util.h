@@ -22,5 +22,6 @@
 GLuint makeShader(const char *filename,GLuint type);
 GLuint makeTexture(const char *filename);
 char *  makeSource(const char *path);
+void jsonfill(const char *filename,int *array);
 
 #endif //UTIL_H_INCLUDED
