@@ -118,7 +118,7 @@ bool t_player::moved(const t_background &back,const boost::posix_time::time_dura
 
 t_background::t_background() 
 {
-   board = {{1,1,1,1,1,1,1,1},{1},{1},{1},{1},{1},{1},{1},{1},{1},{1,1},{1},{1,1},{1},{1},{1},{1},{1},{1},{1,1}};
+   jsonfill("lol",board[0]);
 }
 
 void t_background::draw(float xpos) const

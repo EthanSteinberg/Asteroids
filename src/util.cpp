@@ -18,9 +18,11 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <fstream>
 
 #include <GL/glew.h>
 #include <Magick++.h>
+#include <yajl/yajl_parse.h>
 
 #include "util.h"
 
@@ -91,3 +93,25 @@ char * makeSource(const char *path)
 
 }
 
+int loadint(void *ctx,long integer)
+{
+   *(*(int **) ctx)++ = integer;
+   return 1;
+}
+
+yajl_callbacks call= {NULL,NULL,loadint,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+yajl_parser_config conf = {0,1};
+
+void jsonfill(const char *filename,int *array)
+{
+   std::ifstream fin(filename);
+   fin.seekg(0,std::ios::end);
+   int length = fin.tellg();
+   fin.seekg(0,std::ios::beg);
+   unsigned char *buffer = new unsigned char  [length];
+   fin.read ((char *) buffer,length);
+   fin.close();
+
+   yajl_handle lolv = yajl_alloc(&call,&conf,NULL,&array);
+   yajl_parse(lolv,buffer,length);
+}
