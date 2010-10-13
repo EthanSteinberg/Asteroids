@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <fstream>
 
+#include <boost/scoped_ptr.hpp>
 #include <GL/glew.h>
 #include <Magick++.h>
 #include <yajl/yajl_parse.h>
@@ -30,12 +31,10 @@ GLuint makeShader(const char *filename,GLuint type)
 {
    GLuint shader = glCreateShader(type);
 
-   char * source = makeSource(filename);
+   boost::scoped_ptr<char> source(makeSource(filename));
 
    glShaderSource(shader,1,(const GLchar **) &source,NULL);
    glCompileShader(shader);
-   
-   free(source);
 
    return shader;
 }
@@ -90,7 +89,6 @@ char * makeSource(const char *path)
    fclose(fd);
    
    return str;
-
 }
 
 int loadint(void *ctx,long integer)
