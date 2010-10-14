@@ -25,6 +25,10 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/SFML-1.6/include)
 add_library(GLEW SHARED IMPORTED)
 set_target_properties(GLEW PROPERTIES IMPORTED_LOCATION /usr/lib64/libGLEW.so)
 
+
+find_package(Freetype)
+include_directories(${FREETYPE_INCLUDE_DIRS})
+
 find_package(OpenGL)
 include_directories(${OPENGL_INCLUDE_DIR})
 
