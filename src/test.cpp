@@ -139,14 +139,13 @@ void testdraw()
    ScaArray[0][1] = glyphs['A' -32]->bitmap.rows;
 
    PosArray[1][0] = ((FT_Glyph *) glyphs)['A' -32]->advance.x / (65536.0 * 200.0);
-   PosArray[1][1] = 0;//((FT_Glyph *) glyphs)['A' -32]->advance.y * 10; 
-   //printf("%f\n",(float) ((FT_Glyph *) glyphs)['A' -32]->advance.x /(65536 * 200));
+   PosArray[1][1] = 0; 
 
-   TexArray[1][0] = 0;
-   TexArray[1][0] = 0;
+   TexArray[1][0] = glyphs['A' -32]->bitmap.width + 1;
+   TexArray[1][1] = 0;
 
-   ScaArray[1][0] = glyphs['A' -32]->bitmap.width;
-   ScaArray[1][1] = glyphs['A' -32]->bitmap.rows;
+   ScaArray[1][0] = glyphs['B' -32]->bitmap.width;
+   ScaArray[1][1] = glyphs['B' -32]->bitmap.rows;
    
    glDisableVertexAttribArray(0);
    glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
