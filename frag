@@ -7,8 +7,8 @@ out vec4 Color;
 uniform sampler2D Texture;
 void main(void) 
 {
-    float tempCol = texture(Texture,out_Textcord).a;
-    Color = mix(vec4(1,0,0,1),vec4(0,0,0,1),tempCol);
-    //if (Color == 0)
-      //discard;
+    vec4 tempCol = texture(Texture,out_Textcord);
+    if (tempCol.a == 0)
+      discard;
+    Color = mix(vec4(0,1,1,1),tempCol,tempCol.a);
 }
