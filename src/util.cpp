@@ -25,7 +25,26 @@
 #include <Magick++.h>
 #include <yajl/yajl_parse.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+
 #include "util.h"
+
+struct ivec2
+{
+   int x;
+   int y;
+};
+
+extern int vbo[4];
+extern int TextScaleUniform;
+extern int TextUniform;
+
+FT_Face face;
+FT_Library library;
+FT_BitmapGlyph glyphs[96];
+ivec2 glyphsPos[96];
 
 GLuint makeShader(const char *filename,GLuint type)
 {
@@ -117,4 +136,140 @@ void jsonfill(const char *filename,int *array)
    yajl_free(handl);
 
    free(buffer);
+}
+
+int nextPowerOfTwo(int num)
+{
+   int x = 1;
+   while (x < num)
+      x *= 2;
+
+   return x;
+}
+
+void fontInit(int size,int dpi)
+{
+   int error = FT_Init_FreeType(&library);
+   printf("\n\nThe error in initialization was %d",error);
+
+   error = FT_New_Face(library,"res/DejaVuSerif.ttf",0,&face);
+   printf("\nThe error in making the face was %d",error);
+
+   printf("\nThe file has %d glyphs",static_cast<int>(face->num_charmaps));
+
+   error = FT_Set_Char_Size(face,0,size *64,0,dpi);
+   printf("\nThe error for size setting was %d",error);
+}
+
+void loadGlyph(char letter)
+{
+   int glyph_index = FT_Get_Char_Index( face, letter);
+   printf("\nThe index for the thing is %d, compared to the given %d for %c",glyph_index,letter,letter);
+
+   int error = FT_Load_Glyph(face,glyph_index,FT_LOAD_RENDER);
+   printf("\nThe error for loading the glyph was %d",error);
+   
+   error = FT_Render_Glyph(face->glyph,FT_RENDER_MODE_NORMAL);
+   printf("\nThe error for rendering the glyph was %d\n",error);
+
+   FT_Get_Glyph(face->glyph,(FT_Glyph *) &glyphs[letter -32]);
+}
+
+void drawText(const char *string,float startx,float starty)
+{
+   float PosArray[20][2];
+   float TexArray[20][2];
+   float ScaArray[20][2];
+
+   int count = 0;
+  
+   while(*string && count < 20)
+   {
+      FT_BBox bbox;
+
+      FT_Glyph_Get_CBox( (FT_Glyph) glyphs[*string -32], FT_GLYPH_BBOX_PIXELS, &bbox );
+
+      PosArray[count][0] = startx;
+      PosArray[count][1] = starty + (int) bbox.yMin/200.0;
+
+      TexArray[count][0] = glyphsPos[*string -32].x;
+      TexArray[count][1] = glyphsPos[*string -32].y;
+      
+      ScaArray[count][0] = glyphs[*string -32]->bitmap.width;
+      ScaArray[count][1] = glyphs[*string -32]->bitmap.rows;
+
+      startx += ((FT_Glyph) glyphs[*string -32])->advance.x/(65532.0 * 200.0);
+      
+      string++, count++;
+   }
+
+   glDisableVertexAttribArray(0);
+   glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+   glBufferSubData(GL_ARRAY_BUFFER,0,20 * 2 * sizeof(GLfloat),PosArray);
+   glVertexAttribPointer((GLuint) 0,2,GL_FLOAT,GL_FALSE,0,0);
+   glEnableVertexAttribArray(0);
+  
+   glDisableVertexAttribArray(1);
+   glBindBuffer(GL_ARRAY_BUFFER,vbo[1]);
+   glBufferSubData(GL_ARRAY_BUFFER,0,20 * 2 * sizeof(GLfloat),TexArray);
+   glVertexAttribPointer((GLuint) 1,2,GL_FLOAT,GL_FALSE,0,0);
+   glEnableVertexAttribArray(1);
+
+   glDisableVertexAttribArray(2);
+   glBindBuffer(GL_ARRAY_BUFFER,vbo[2]);
+   glBufferSubData(GL_ARRAY_BUFFER,0,20 * 2* sizeof(GLfloat),ScaArray);
+   glVertexAttribPointer((GLuint) 2,2,GL_FLOAT,GL_FALSE,0,0);
+   glEnableVertexAttribArray(2);
+   
+   glDrawElements(GL_POINTS,count,GL_UNSIGNED_BYTE,0);
+}
+
+void loadText()
+{
+   fontInit(20,0);
+   
+   const int width = 1024,height = 1024;
+   int x = 0,y = 0,maxy = 0;
+
+   glUniform2f(TextScaleUniform,width,height);
+
+   unsigned char *lol = new unsigned char[width * height];
+   memset(lol,0,width * height);
+
+   for (int i = 32;i< 128;i++)
+   {
+
+
+      loadGlyph(i);
+
+      int w = glyphs[i -32]->bitmap.width;
+      int h = glyphs[i -32]->bitmap.rows;// + glyphs[i-32]->top;
+      
+      maxy = maxy > h ? maxy : h;
+
+      if ((x + w) > width)
+	 y+= maxy + 3,x = 0,maxy = 0;
+
+      glyphsPos[i -32].x = x;
+      glyphsPos[i -32].y = y;
+      
+      for (int l = 0;l<h;l++)
+	 memcpy(lol + (l +y)*width + x,glyphs[i -32]->bitmap.buffer + l * w,w);
+
+      x+=w + 3;
+   }
+
+   glActiveTexture(GL_TEXTURE1);
+   GLuint texttext;;
+   glGenTextures(1,&texttext);
+
+   glBindTexture(GL_TEXTURE_2D,texttext);
+
+   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+   glTexImage2D(GL_TEXTURE_2D,0,GL_ALPHA,width,height,0,GL_ALPHA,GL_UNSIGNED_BYTE,lol );
+
+   glUniform1i(TextUniform,1);
 }

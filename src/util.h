@@ -20,9 +20,16 @@
 #define UTIL_H_INCLUDED
 #include <boost/scoped_ptr.hpp>
 
+
 GLuint makeShader(const char *filename,GLuint type);
 GLuint makeTexture(const char *filename);
 char * makeSource(const char *path);
 void jsonfill(const char *filename,int *array);
+
+void fontInit(int size);
+void loadText();
+void drawText(const char *string,float startx,float starty);
+void loadGlyph(char letter);
+int nextPowerOfTwo(int x);
 
 #endif //UTIL_H_INCLUDED
