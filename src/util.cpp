@@ -149,28 +149,20 @@ int nextPowerOfTwo(int num)
 
 void fontInit(int size,int dpi)
 {
-   int error = FT_Init_FreeType(&library);
-   printf("\n\nThe error in initialization was %d",error);
+   FT_Init_FreeType(&library);
 
-   error = FT_New_Face(library,"res/DejaVuSerif.ttf",0,&face);
-   printf("\nThe error in making the face was %d",error);
+   FT_New_Face(library,"res/DejaVuSerif.ttf",0,&face);
 
-   printf("\nThe file has %d glyphs",static_cast<int>(face->num_charmaps));
-
-   error = FT_Set_Char_Size(face,0,size *64,0,dpi);
-   printf("\nThe error for size setting was %d",error);
+   FT_Set_Char_Size(face,0,size *64,0,dpi);
 }
 
 void loadGlyph(char letter)
 {
    int glyph_index = FT_Get_Char_Index( face, letter);
-   printf("\nThe index for the thing is %d, compared to the given %d for %c",glyph_index,letter,letter);
 
-   int error = FT_Load_Glyph(face,glyph_index,FT_LOAD_RENDER);
-   printf("\nThe error for loading the glyph was %d",error);
+   FT_Load_Glyph(face,glyph_index,FT_LOAD_RENDER);
    
-   error = FT_Render_Glyph(face->glyph,FT_RENDER_MODE_NORMAL);
-   printf("\nThe error for rendering the glyph was %d\n",error);
+   FT_Render_Glyph(face->glyph,FT_RENDER_MODE_NORMAL);
 
    FT_Get_Glyph(face->glyph,(FT_Glyph *) &glyphs[letter -32]);
 }
@@ -243,7 +235,7 @@ void loadText()
       loadGlyph(i);
 
       int w = glyphs[i -32]->bitmap.width;
-      int h = glyphs[i -32]->bitmap.rows;// + glyphs[i-32]->top;
+      int h = glyphs[i -32]->bitmap.rows;
       
       maxy = maxy > h ? maxy : h;
 

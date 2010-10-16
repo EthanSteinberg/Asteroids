@@ -26,7 +26,9 @@
 #include <boost/ref.hpp>
 #include <boost/array.hpp>
 
-#include "test.h"
+#include "asteroids.h"
+
+t_asteroids *asteroids;
 
 sf::Window *App;
 
@@ -57,7 +59,8 @@ int main ()
 
 void SetupRC()
 {
-    testinit();
+    //initilize here
+    asteroids = new t_asteroids;
 
     glClearColor(0.0f,1.0f,1.0f,1.0f);
 
@@ -143,7 +146,7 @@ void RenderScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //draw stuff here
-    testdraw();
+    asteroids->drawall();
 
     App->Display();
 }
@@ -165,7 +168,7 @@ void MoveEvents()
 
         //call other functions here
         //see if keys are pressed by checking the KeyPressed array
-        testmove();
+        asteroids->moveall();
 	 
         boost::this_thread::sleep(time);
     }
