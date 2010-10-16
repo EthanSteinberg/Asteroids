@@ -20,6 +20,7 @@
 #include <SFML/Window.hpp>
 
 #include <iostream>
+#include <cstdio>
 
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
@@ -31,8 +32,7 @@
 t_asteroids *asteroids;
 
 sf::Window *App;
-
-boost::array<int,32> PressedKeys;
+const sf::Input *Input;
 
 void ReSize (int w, int h);
 void SetupRC();
@@ -47,6 +47,7 @@ using namespace std;
 int main ()
 {
     App = new sf::Window(sf::VideoMode(800, 600, 32), "SFML Window");
+    Input = &(App->GetInput());
     assert(App->SetActive(true));
     
     glewInit();
@@ -84,9 +85,11 @@ void MainLoop()
 
     for (;;)
     {
+       
         sf::Event Event;
         while (App->GetEvent(Event))
-        {
+        ;
+	/*{
             if(Event.Type == sf::Event::Resized)
             {
                 ReSize(Event.Size.Width,Event.Size.Height);
@@ -134,7 +137,10 @@ void MainLoop()
                 default: ;
 		}
             }
+
+	    else if(Event.Type == sf::Event::MousePressed)
         }
+	*/
         boost::this_thread::sleep(time);
         time = boost::get_system_time() + boost::posix_time::milliseconds(20); //minimum time between draws
         RenderScene();
@@ -161,7 +167,7 @@ void StartMoveEvents()
 void MoveEvents()
 {
     boost::system_time time;
-
+    
     for (;;)
     {
         time = boost::get_system_time() + boost::posix_time::milliseconds(33); //minimum time between movements

@@ -40,6 +40,10 @@ struct ivec2
 extern int vbo[4];
 extern int TextScaleUniform;
 extern int TextUniform;
+extern int ScaleUniform;
+
+int width;
+int height;
 
 FT_Face face;
 FT_Library library;
@@ -175,6 +179,10 @@ void drawText(const char *string,float startx,float starty)
 
    int count = 0;
   
+   glUniform1i(TextUniform,1);
+   glUniform2f(TextScaleUniform,width,height);
+   glUniform2f(ScaleUniform,0.005,0.005);
+   
    while(*string && count < 20)
    {
       FT_BBox bbox;
@@ -190,7 +198,7 @@ void drawText(const char *string,float startx,float starty)
       ScaArray[count][0] = glyphs[*string -32]->bitmap.width;
       ScaArray[count][1] = glyphs[*string -32]->bitmap.rows;
 
-      startx += ((FT_Glyph) glyphs[*string -32])->advance.x/(65532.0 * 200.0);
+      startx += ((FT_Glyph) glyphs[*string -32])->advance.x/(65532.0) * 0.005;
       
       string++, count++;
    }
@@ -214,16 +222,16 @@ void drawText(const char *string,float startx,float starty)
    glEnableVertexAttribArray(2);
    
    glDrawElements(GL_POINTS,count,GL_UNSIGNED_BYTE,0);
+   
+   glUniform1i(TextUniform,0);
 }
 
 void loadText()
 {
    fontInit(20,0);
    
-   const int width = 1024,height = 1024;
+   width = 1024,height = 1024;
    int x = 0,y = 0,maxy = 0;
-
-   glUniform2f(TextScaleUniform,width,height);
 
    unsigned char *lol = new unsigned char[width * height];
    memset(lol,0,width * height);
