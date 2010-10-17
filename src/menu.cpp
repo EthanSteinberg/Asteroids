@@ -47,7 +47,7 @@ void t_menu::drawall() const
 	    PosArray[0][1] = .70 + -.25 * selected;
 
             TexArray[0][0] = 1;
-	    TexArray[0][1] = 1;
+	    TexArray[0][1] = 0;
       
             ScaArray[0][0] = 1;
 	    ScaArray[0][1] = 1;
@@ -87,7 +87,7 @@ void t_menu::moveall()
    {
       case 1:
 	 float x = Input->GetMouseX()/400.0 -1;
-	 float y = 1 -Input->GetMouseY()/300.0;
+	 float y = 1 -Input->GetMouseY()/400.0;
 	 if (Input->IsMouseButtonDown(sf::Mouse::Left))
 	 {
 	    if(x > -.9 && x < .1 && y > .45 && y< .625)

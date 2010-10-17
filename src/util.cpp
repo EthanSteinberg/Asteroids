@@ -30,12 +30,7 @@
 #include FT_GLYPH_H
 
 #include "util.h"
-
-struct ivec2
-{
-   int x;
-   int y;
-};
+#include "vec.h"
 
 extern int vbo[4];
 extern int TextScaleUniform;

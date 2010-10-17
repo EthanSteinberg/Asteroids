@@ -46,13 +46,13 @@ using namespace std;
 
 int main ()
 {
-    App = new sf::Window(sf::VideoMode(800, 600, 32), "SFML Window");
+    App = new sf::Window(sf::VideoMode(800, 800, 32), "SFML Window");
     Input = &(App->GetInput());
     assert(App->SetActive(true));
     
     glewInit();
     SetupRC();
-    ReSize(800,600);
+    ReSize(800,800);
     MainLoop();
 
     std::cin.get();
@@ -88,12 +88,13 @@ void MainLoop()
        
         sf::Event Event;
         while (App->GetEvent(Event))
-        ;
-	/*{
+	{
             if(Event.Type == sf::Event::Resized)
             {
                 ReSize(Event.Size.Width,Event.Size.Height);
             }
+        }
+	/*
 
             else if(Event.Type == sf::Event::KeyPressed)
             {
@@ -138,7 +139,6 @@ void MainLoop()
 		}
             }
 
-	    else if(Event.Type == sf::Event::MousePressed)
         }
 	*/
         boost::this_thread::sleep(time);

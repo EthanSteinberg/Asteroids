@@ -9,6 +9,7 @@ int Program;
 int TextScaleUniform;
 int TextUniform;
 int ScaleUniform;
+int RotateUniform;
 GLuint vao,vbo[4];
 
 //Class: t_asteroids
@@ -64,14 +65,17 @@ t_asteroids::t_asteroids()
    TextUniform = glGetUniformLocation(Program,"Texture");
    TextScaleUniform = glGetUniformLocation(Program,"TextScale");
    ScaleUniform = glGetUniformLocation(Program,"Scale");
+   RotateUniform = glGetUniformLocation(Program,"Rotate");
 
-   int text0 = makeTexture("res/atlas.svg");
+   glUniform1f(RotateUniform,0);
+
+   int text0 = makeTexture("res/space3.svg");
    glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D,text0);
    glUniform1i(TextUniform,0);
    
    char log[1000];
-   glGetShaderInfoLog(vert,1000,NULL,log);
+   glGetShaderInfoLog(geom,1000,NULL,log);
    printf("The log is comming in.\n%s",log);
    
    loadText();
