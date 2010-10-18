@@ -6,6 +6,43 @@
 
 #include "vec.h"
 
+class t_bullets;
+class t_ship;
+
+class t_rock
+{
+public:
+   t_rock(vec2 startpos,float direction);
+   void draw() const;
+
+   void move(const boost::posix_time::time_duration &time);
+
+   vec2 getPosition() const;
+
+private:
+   vec2 pos;
+   float direction;
+};
+
+class t_rocks
+{
+public:
+   void drawall() const;
+
+   void moveall(const boost::posix_time::time_duration &time);
+   
+   void add(t_rock *newRock);
+
+   size_t size() const;
+
+   bool collided(const t_bullets &bullets);
+   bool collided(const t_ship &ship);
+
+private:
+   std::vector<t_rock *> rock;
+   float distance(const t_bullets &bullets,int l,int i) const;
+};
+
 class t_bullet
 {
 public:
@@ -13,10 +50,29 @@ public:
    void draw() const;
    
    void move(const boost::posix_time::time_duration &time);
+   
+   vec2 getPosition() const;
 
 private:
    vec2 pos;
    float direction;
+};
+
+class t_bullets
+{
+public:
+   void drawall() const;
+
+   void moveall(const boost::posix_time::time_duration &time);
+
+   void add(t_bullet *newBullet);
+   
+   size_t size() const;
+
+   vec2 getPosition(int i) const;
+
+private:
+   std::vector<t_bullet *> bullet;
 };
 
 class t_background
@@ -48,6 +104,7 @@ private:
 class t_game
 {
 public:
+   t_game();
    void drawall() const;
 
    bool moveall();
@@ -55,6 +112,7 @@ public:
 private:
    t_background background;
    t_ship ship;
-   std::vector<t_bullet *> bullets;
+   t_bullets bullets;
+   t_rocks rocks;
 };
 #endif

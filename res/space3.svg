@@ -13,7 +13,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   width="400"
+   width="600"
    height="400"
    sodipodi:docname="space3.svg">
   <metadata
@@ -119,4 +119,14 @@
      height="60"
      x="90"
      y="70" />
+  <path
+     sodipodi:type="arc"
+     style="fill:#ff0000"
+     id="path2819"
+     sodipodi:cx="500"
+     sodipodi:cy="100"
+     sodipodi:rx="70"
+     sodipodi:ry="70"
+     d="m 570,100 a 70,70 0 1 1 -140,0 70,70 0 1 1 140,0 z"
+     transform="matrix(1.1428572,0,0,1.1428572,-71.428604,-14.28572)" />
 </svg>

@@ -36,7 +36,7 @@ void t_menu::drawall() const
       case 1: 
 	 if (selected)
 	 {
-	    glUniform2f(TextScaleUniform,2,2);
+	    glUniform2f(TextScaleUniform,3,2);
 	    glUniform2f(ScaleUniform,1,0.175);
 
 	    float PosArray[1][2];
