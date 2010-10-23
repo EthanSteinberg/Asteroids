@@ -12,16 +12,18 @@ class t_ship;
 class t_rock
 {
 public:
-   t_rock(vec2 startpos,float direction);
+   t_rock(vec2 pos,float direction,float size);
    void draw() const;
 
    void move(const boost::posix_time::time_duration &time);
 
    vec2 getPosition() const;
+   float getSize() const;
 
 private:
    vec2 pos;
    float direction;
+   float size;
 };
 
 class t_rocks
@@ -37,6 +39,8 @@ public:
 
    bool collided(const t_bullets &bullets);
    bool collided(const t_ship &ship);
+
+   void split(int rocknum);
 
 private:
    std::vector<t_rock *> rock;

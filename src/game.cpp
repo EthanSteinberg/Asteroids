@@ -51,8 +51,12 @@ bool t_rocks::collided(const t_bullets &bullets)
    {
       for (unsigned int  i = 0;i<bullets.size();i++)
       {
-	 if (distance(bullets,l,i) < .15 * .15)
+	 if (distance(bullets,l,i) < rock[l]->getSize()  * rock[l]->getSize())
+	 {
+	    split(l);
+	    rock.erase(rock.begin() + l);
 	    return true;
+	 }
       }
    }
    return false;
@@ -64,20 +68,30 @@ float t_rocks::distance(const t_bullets &bullets,int l, int i) const
         + (bullets.getPosition(i).y - rock[l]->getPosition().y) * (bullets.getPosition(i).y - rock[l]->getPosition().y);
 }
 
+void t_rocks::split(int rocknum)
+{
+   t_rock *oldRock = rock[rocknum];
+
+   vec2 tempPosition = oldRock->getPosition();
+   float tempSize = oldRock->getSize()/2;
+
+   add(new t_rock(tempPosition,50,tempSize));
+}
 //Class: t_rock
 //Purpose: Be a rock and move
 //Interface: moevup,movedown, turnleft,turnright draw
 
-t_rock::t_rock(vec2 startpos, float startdirection)
+t_rock::t_rock(vec2 startpos, float startdirection,float startsize)
 {
    pos = startpos;
    direction = startdirection;
+   size = startsize;
 }
 
 void t_rock::draw() const
 {
    glUniform2f(TextScaleUniform,TEXTX,TEXTY);
-   glUniform2f(ScaleUniform,.15,.15);
+   glUniform2f(ScaleUniform,size,size);
    glUniform1f(RotateUniform,direction);
 
    float PosArray[1][2];
@@ -132,6 +146,10 @@ vec2 t_rock::getPosition() const
    return pos;
 }
 
+float t_rock::getSize() const
+{
+   return size;
+}
 //Class: t_bullets
 //Purpose: Hold bullets
 //Interface: moveall, drawall, add
@@ -373,7 +391,7 @@ t_bullet* t_ship::shoot() const
 t_game::t_game()
 {
    vec2 temp = {-.5,-.5};
-   rocks.add(new t_rock(temp,30));
+   rocks.add(new t_rock(temp,30,.15));
 }
 
 void t_game::drawall() const
@@ -425,7 +443,7 @@ bool t_game::moveall()
    vec2 temp = {0,0};
 
    if (rocks.collided(bullets))
-      rocks.add(new t_rock(temp,90));
+      rocks.add(new t_rock(temp,90,.15));
 
    time = boost::posix_time::microsec_clock::universal_time();
    
